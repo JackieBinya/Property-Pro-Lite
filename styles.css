@@ -229,3 +229,37 @@ background-color: rgb(255, 255, 255,0.6);
   }
   .card-title, .card-desc, .card-price {margin-left: 0.3em; }
 } 
+
+
+/********************************************************************************
+*showSpecificAd
+**********************************************************/
+.ad-details {
+  height: 60vh;
+}
+.ad-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.ad-image {
+  margin: .5em 0;
+  width: 280px;
+  height: 250px;
+}
+
+.p-adDesc {
+  margin-top: 1em;
+}
+
+@media only screen and (min-width:768px){
+  .ad-image {
+    width: 500px;
+    height: 450px;
+  }
+
+  .myImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
