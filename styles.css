@@ -160,3 +160,72 @@ padding: 0.8em;
 background-color: rgb(255, 255, 255,0.6);
 }
 }
+
+/***************************************************************************************************************
+*Display properties
+**********************************************************************************************/
+.list-item {
+  cursor: pointer;
+}
+
+ .card, .manageAd-card {
+  background-color: rgb(245, 245, 245);
+  margin-bottom: 1.5em;
+  padding: 1em;
+} 
+
+.card img, .manageAd-card img {
+  width: 120px;
+  height: 145px;
+}
+
+.card-title, .manageAd-card .card-title {
+  font-weight: 500;
+  color: rgba(0, 0, 0)
+}
+
+.card-desc {
+  color:  rgba(0, 0, 0);
+}
+
+.card-price, .manageAd-card .card-price {
+  color: rgb(0, 0, 255);
+}
+
+.manageAd-card  button, .manageAd-card a  {
+  border: 1px solid rgb(0, 0, 255);
+  background-color: rgb(245, 245, 245);
+  border-radius: 5px;
+  transition: all 1s;
+}
+
+.manageAd-card div p, .manageAd-card div button {
+  margin-bottom: 0.3em;
+}
+
+.manageAd-card a {
+  font-size: 0.85rem;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  padding: 0.7em .5em;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.manageAd-card a:hover, .manageAd-card button:hover {
+  background-color: rgb(0, 0, 255);
+  color: rgb(255, 255, 255);
+  border: none;
+  outline: none;
+}
+
+ @media only screen and (min-width: 768px){
+  .card, .manageAd-card {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    
+  }
+  .card-title, .card-desc, .card-price {margin-left: 0.3em; }
+} 
