@@ -72,33 +72,36 @@ const properties = [
 
 ] ; 
 
-let list = document.querySelector('.list');
+const imgDiv = document.querySelector('.myImg');
+const adTitle = document.querySelector('.ad-title');
 
- const showList = (properities) => {
-     for(let i=0; i<properities.length; i++) {
-     let text =  `<li data-key=${properties[i].id} data-type="${properities[i].type}" data-status="${properities[i].status}"class='list-item'>
-                       <div class="card">
-                            <img src=${properities[i].img}
-                            >
-                            <p class="card-title">${properities[i].title}</p>
-                            <p class="card-desc">${properities[i].desc}</p>
-                            <p class="card-price">${properities[i].price}<p/>
-                        </div> 
-                    <li/>`;
-    const position = 'afterbegin'
-     list.insertAdjacentHTML(position, text);
-     }
- }
-
-  window.onload = showList(properties);
-
-  // Add on-click event listener from list items on home page
-  
-const listItems = document.querySelectorAll('.list-item');
-
-for(listItem of listItems){
-    listItem.addEventListener('click', e => {
-       // console.log(e.currentTarget.dataset.key)
-       window.location.href=`./showAd.html?id=${e.currentTarget.dataset.key}`;
-    });
+const getUrlParameter = (sParam) => {
+    const sPageURL = window.location.search.substring(1);
+    const sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
 }
+
+window.onload = () => {
+    const id = getUrlParameter('id');
+    const property = properties.find(property => property.id == id);
+
+    adTitle.textContent = property.title;
+
+    let myImage = new Image();
+    myImage.src = property.img;
+    myImage.classList.add('ad-image')
+    imgDiv.appendChild(myImage);     
+
+    const props = Object.keys(property);
+    props.forEach(key => {
+      const elem = document.querySelectorAll(`[data-${key}-value]`);
+      if (elem.length) return elem[0].textContent = property[key];
+    });
+} 
