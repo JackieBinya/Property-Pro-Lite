@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./showAd.js" async></script>
+    <title>Show Ad</title>
+</head>
+<body>
+    <!--
+        Each grid item on home page is clickable ie its wrapped in an anchor tag not div
+        So when u click grid item you redirected to this page where you view single selected property
+    -->
+     <header>
+        <div class="navbar-secondary">
+            <p>
+            <a href="./index.html" class="logo-sec">Property Pro Lite</a>
+            </p>
+                    
+            <p>
+                <a href="#">Logout</a>
+            </p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container-secondary">
+            <p>
+                <span class ="ad-title"></span>
+            </p>
+            <div class="myImg">
+                <!--img src="./assets/pplImages/img8.jpg" alt="" class="ad-image"-->
+            </div>
+            
+            <div class="ad-details">
+                <h3>Specifications</h3>
+                <p>
+                    <span class = "prop" data-city="">City:</span>
+                    <span class = "value" data-city-value=""></span>
+                </p>
+                <p>
+                    <span class = "prop" data-location="">Location/Surburb:</span>
+                    <span class = "value" data-location-value=""></span>
+                </p>
+                <p>
+                    <span class = "prop" data-address="">Address:</span>
+                    <span class = "value" data-address-value=""></span>
+                </p>
+                <p>
+                    <span class = "prop" data-type="">Type:</span>
+                    <span class = "value" data-type-value=""></span>
+                </p>
+                <p>
+                    <span class = "prop" data-contact="">Contact:</span>
+                    <span class = "value" data-contact-value=""></span>
+                </p>
+                <p class="p-adDesc">
+                    <span class = "prop" data-desc=""><strong>Description:</strong></span>
+                    <span class = "value" data-desc-value="" style="display: block">lorem*5</span>
+                </p>
+                </div>
+            </div>
+    </main>
+</body>
+</html>
