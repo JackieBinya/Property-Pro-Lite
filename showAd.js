@@ -7,7 +7,7 @@ const properties = [
     img: './assets/pplImages/img6.jpg', 
     desc: 'Reoloribus quam, ipsam molestiae necessitatibus nemo iusto, unde consequuntur sunt ipsum...',
     price:'$5.999999million',
-    type: '3 bedroom',
+    type: 'mini-flat',
     contact: 'mz@bar.com',
     status: 'available',
     id: 1,

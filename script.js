@@ -7,7 +7,7 @@ const properties = [
     img: './assets/pplImages/img6.jpg', 
     desc: 'Reoloribus quam, ipsam molestiae necessitatibus nemo iusto, unde consequuntur sunt ipsum...',
     price:'$5.999999million',
-    type: '3 bedroom',
+    type: 'mini-flat',
     contact: 'mz@bar.com',
     status: 'available',
     id: 1,
@@ -102,3 +102,26 @@ for(listItem of listItems){
        window.location.href=`./showAd.html?id=${e.currentTarget.dataset.key}`;
     });
 }
+
+// Add onchange event to search box
+let search = '';
+document.querySelector('#search-property').addEventListener('change', e =>{
+    search = e.currentTarget.value;
+});
+
+const getSearchProp = () => {
+    
+    for(listItem of listItems) {
+        const arr =Object.values(listItem.dataset)
+        if (arr.includes(search)){
+            listItem.style.display = 'block';
+        } else   listItem.style.display = 'none';
+        // console.log(arr)
+        // if (listItem.dataset.type !== search) listItem.style.display = 'none'
+    }
+}
+
+document.querySelector('.searchForm').addEventListener('submit', e => {
+    e.preventDefault();
+    getSearchProp()
+} );
