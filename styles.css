@@ -347,16 +347,17 @@ background-color: rgb(255, 255, 255,0.6);
   color: rgba(0, 0, 0);
 }
 
-.postAdForm div, .loginForm div, .signUpForm div, .EditAdForm div{
+.postAdForm div, .loginForm div, .signUpForm div, .EditAdForm div {
   margin: 1em 0;
  
 }
 
-.postAdForm div input, .postAdForm div textarea, .loginForm div input, .signUpForm div input, .EditAdForm div input {
+.postAdForm div input, .postAdForm div textarea, select, .loginForm div input, .signUpForm div input, .EditAdForm div input {
   width: 100%;
   padding: 0.5em;
   border: 1px solid rgb(151, 149, 149);
   border-radius: 5px;  
+  color: rgb(122, 119, 119);
  /*  font-size: 1rem; */
 }
 
