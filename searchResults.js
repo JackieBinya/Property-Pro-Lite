@@ -1,5 +1,5 @@
 const properties = [
-    {
+   /*  {
     title: 'Serious buyer wanted!!!',
     city: 'Bulawayo',
     location: 'Gwabalanda',
@@ -12,7 +12,7 @@ const properties = [
     status: 'available',
     id: 1,
 },
-
+ */
 {
     title: '$150 rent pm room available',
     city: 'Harare',
@@ -74,15 +74,15 @@ const properties = [
 
 let list = document.querySelector('.list');
 
- const showList = (properities) => {
-     for(let i=0; i<properities.length; i++) {
-     let text =  `<li data-key=${properties[i].id} data-type="${properities[i].type}" data-status="${properities[i].status}"class='list-item'>
+ const showList = (arr) => {
+     for(let i=0; i<arr.length; i++) {
+     let text =  `<li data-key=${arr[i].id} data-type="${arr[i].type}" data-status="${arr[i].status}"  class="list-item">
                        <div class="card">
-                            <img src=${properities[i].img}
+                            <img src=${arr[i].img}
                             >
-                            <p class="card-title">${properities[i].title}</p>
-                            <p class="card-desc">${properities[i].desc}</p>
-                            <p class="card-price">${properities[i].price}<p/>
+                            <p class="card-title" >${arr[i].title}</p>
+                            <p class="card-desc">${arr[i].desc}</p>
+                            <p class="card-price">${arr[i].price}<p/>
                         </div> 
                     <li/>`;
     const position = 'afterbegin'
@@ -90,39 +90,43 @@ let list = document.querySelector('.list');
      }
  }
 
- showList(properties)
+const getUrlParameter = (sParam) => {
+    const sPageURL = window.location.search.substring(1);
+    const sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}
+let result = ''
+   const value  = getUrlParameter('value');
+   result = decodeURI(value);
 
-// Add on-click event listener from list items on home page
+
+const filteredProperties = properties.filter(prop => prop.type === result);
+
+if (!filteredProperties.length) {
+    const displayError = document.querySelector('.display-msg');
+    displayError.style.display = 'flex';
+    document.querySelector('.del-msg').addEventListener('click', e => {
+    displayError.style.display = 'none';
+});
+}
+
+if (filteredProperties.length) showList(filteredProperties);
+
+
+
 const listItems = document.querySelectorAll('.list-item');
+console.log(listItems)
 
-for(listItem of listItems){
+ for(listItem of listItems){
     listItem.addEventListener('click', e => {
        // console.log(e.currentTarget.dataset.key)
        window.location.href=`./showAd.html?id=${e.currentTarget.dataset.key}`;
     });
-}
-
-// Add onchange event to search box
-let search = '';
-document.querySelector('#search-property').addEventListener('change', e =>{
-    search = e.currentTarget.value;
-});
-
-/* const getSearchProp = () => {
-    
-    for(listItem of listItems) {
-        const arr =Object.values(listItem.dataset)
-        if (arr.includes(search)){
-            listItem.style.display = 'block';
-        } else   listItem.style.display = 'none';
-        // console.log(arr)
-        // if (listItem.dataset.type !== search) listItem.style.display = 'none'
-    }
-}
- */
-document.querySelector('.searchForm').addEventListener('submit', e => {
-    e.preventDefault();
-    window.location.href=`./searchResults.html?value=${search}`;
-    /* 
-    getSearchProp() */
-} );
+} 
