@@ -191,6 +191,7 @@ background-color: rgb(255, 255, 255,0.6);
 }
 
 .manageAd-card  button, .manageAd-card a  {
+  cursor: pointer;
   border: 1px solid rgb(0, 0, 255);
   background-color: rgb(245, 245, 245);
   border-radius: 5px;
@@ -280,7 +281,7 @@ background-color: rgb(255, 255, 255,0.6);
 }
 
 .searchForm button:hover {
-  background-color:  rgb(9, 9, 129);;
+  background-color:  rgb(9, 9, 129);
 }
 
 @media only screen and (min-width: 768px){
@@ -324,7 +325,14 @@ background-color: rgb(255, 255, 255,0.6);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.5rem; 
 }
+
+/**Toggles display-msg dialogue box **/
+.hide-msg {
+  display: none;
+}
+
 
 .del-msg {
   cursor: pointer;
