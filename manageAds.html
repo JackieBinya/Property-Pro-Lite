@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <script src="manageAdsScript.js" async></script>
+    <title>Manage Ads</title>
+</head>
+<body>
+    <!--User gets list of own properties with options to delete/edit OR update details/mark as sold property is either avialable or sold-->
+    <header>
+            <div class="navbar-secondary">
+                    <p>
+                        <a href="./index.html" class="logo-sec">Property Pro Lite</a>
+                    </p>
+                                    
+                    <p>
+                        <a href="#">Logout</a>
+                    </p>
+                </div>        
+    </header>
+    <main>
+        <div class="container-secondary">
+            <h2 class="myAds-title">My Ads</h2>
+                <ul>
+                    <li data-key="1" class="list-item">
+                        <div class="manageAd-card">
+                            <img src="./assets/pplImages/img6.jpg" alt=""
+                            >
+                            <p class="card-title">Serious buyer wanted!!!</p>
+                            <p class="card-price">$5.999999million</p>
+                            
+                            <div>
+                                <button class="editAd-btn">Edit Ad</button>
+                                <button class="mrkSold-btn">Mark as sold</button>
+                                <button class="delAd-btn">Delete Ad</button>
+                            </div>
+                        </div>
+                    </li>
+        
+                    <li data-key="3" class="list-item">
+                        <div class="manageAd-card">
+                            <img src="./assets/pplImages/img1.jpg" alt=""
+                            >
+                            <p class= "card-title">$150 rent pm room available</p>
+                            <p class="card-price">$150</p>
+                            <div>
+                                <button class="editAd-btn">Edit Ad</button>
+                                <button class="mrkSold-btn">Mark as sold</button>
+                                <button class="delAd-btn">Delete Ad</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+        </div>
+    </main>
+</body>
+</html>
