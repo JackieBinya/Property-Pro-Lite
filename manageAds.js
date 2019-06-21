@@ -3,6 +3,7 @@
  const mrkSoldBtns = document.querySelectorAll('.mrkSold-btn');
 
 for(let del of delBtns) {
+    // Add onclick event listener to delete ad button
      del.addEventListener('click', e =>{
          // Get list item id
          const id = event.target.parentNode.parentNode.parentNode.dataset.key;
