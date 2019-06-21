@@ -51,7 +51,7 @@ const properties = [
     price:'$800',
     type: '3 bedroom',
     contact: 'joey@gmail.com',
-    status: 'available',
+    status: 'sold',
     id: 4,
 },
 

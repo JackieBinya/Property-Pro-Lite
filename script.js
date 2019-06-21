@@ -51,7 +51,7 @@ const properties = [
     price:'$800',
     type: '3 bedroom',
     contact: 'joey@gmail.com',
-    status: 'available',
+    status: 'sold',
     id: 4,
 },
 
@@ -91,6 +91,15 @@ let list = document.querySelector('.list');
  }
 
  showList(properties)
+ // '[data-status="sold"]'
+
+ const soldProperties = document.querySelectorAll('[data-status="sold"]');
+ console.log (soldProperties);
+
+ for(let i=0; i<soldProperties.length; i++) {
+     soldProperties[i].firstElementChild.style.opacity = '0.4'
+ }
+
 
 // Add on-click event listener from list items on home page
 const listItems = document.querySelectorAll('.list-item');
