@@ -1,10 +1,10 @@
 {
-  "name": "Property-Pro-Lite",
+  "name": "property-pro-lite",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require @babel/register './src/**/*.test.js' --exit",
     "server": "node app.js",
     "start": "nodemon --exec babel-node app.js"
   },
@@ -16,11 +16,15 @@
     "@babel/core": "^7.4.5",
     "@babel/node": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.0",
+    "mocha": "^6.1.4",
     "nodemon": "^1.19.1"
   },
   "dependencies": {
