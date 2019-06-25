@@ -32,4 +32,33 @@ const createNewUser = (req, res) => {
   });
 };
 
-export { createNewUser }
+const authUser = (req, res) => {
+  const { email, password } = req.body;
+
+  // Trim input
+  email.trim();
+  password.trim();
+
+  const user = models.User.findByEmail(email);
+
+  bcrypt.compare(password, user.password, (err, isMatch) => {
+    // res === true
+    if (err) throw err;
+
+    if (isMatch) {
+      const token = generateToken(user.username);
+      return res.status(200).json({
+        token,
+        user: {
+          username: user.username,
+          email: user.email,
+        },
+      });
+    }
+
+    if (!isMatch) return res.status(401).json({ msg: 'Authentification failed incorrect password!' });
+  });
+};
+
+
+export { createNewUser, authUser }

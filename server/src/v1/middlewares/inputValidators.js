@@ -12,6 +12,15 @@ const signUpValidator = (req, res, next) => {
   next();
 };
 
+const loginValidator = (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) res.status(400).json({ msg: 'Please fill in all fields' });
+  if (!emailRE.test(email)) return res.status(400).json({ msg: 'Enter a valid email' });
+  if (password.length < 6) return res.status(400).json({ msg: 'Password should be no less than 6 characters long' });
+  next();
+};
+
 const postPropertyAdValiadator = (req, res, next) => {
   const {
     title, address, location, city, type, price, description,
@@ -23,4 +32,4 @@ const postPropertyAdValiadator = (req, res, next) => {
   next();
 };
 
-export { signUpValidator, postPropertyAdValiadator };
+export { signUpValidator, loginValidator, postPropertyAdValiadator };
