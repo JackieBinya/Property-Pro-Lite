@@ -5,13 +5,13 @@ class Property {
     this.Properties = [];
   }
 
-  // Create and save a propert
+  // Create and save a property
   create({
     status = 'available', price, location, city, address, type, imageUrl, description, title,
   }) {
     const newProperty = {
       id: uuid.v4(),
-      createdOn: Date.now(),
+      createdOn: new Date(),
       status,
       price,
       location,

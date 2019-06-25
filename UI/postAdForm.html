@@ -48,7 +48,7 @@
                 </div>
                         
                 <div>
-                    <select name="typeOfProperty" id="">
+                    <select name="typeOfProperty" id="" required>
                         <option disabled selected> Type of property</option>
                         <option value="1 bedroom">1 bedroom</option>
                         <option value="2 bedroom">2 bedroom</option>
@@ -62,7 +62,7 @@
                 <div>
     
                 <div>
-                    <textarea name="desc"  maxlength="200"  rows="6" placeholder="Type a detailed description between 30 and 200characters" id="prop-desc"  ></textarea>
+                    <textarea name="desc"  maxlength="200"  rows="6" placeholder="Type a detailed description between 30 and 200characters" id="prop-desc"  required ></textarea>
                 </div>
     
                 <div>
@@ -71,6 +71,7 @@
                     name="propertyImgs"
                     accept=".png, .jpg, .jpeg"
                     id="prop-imgUpload"
+                    required
                     >
                     </div> 
                 <button type="submit">Post</button>
