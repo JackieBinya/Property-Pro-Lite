@@ -35,14 +35,14 @@ class Property {
 
   // Get a property by id
   findOne(id) {
-    return this.users.find(user => user.id === id);
+    return this.Properties.find(user => user.id === id);
   }
 
   // Delete a property
   delete(id) {
     const property = this.findOne(id);
-    const index = this.propertiess.indexOf(property);
-    this.properties.splice(index, 1);
+    const index = this.Properties.indexOf(property);
+    this.Properties.splice(index, 1);
     return {};
   }
 
@@ -50,15 +50,15 @@ class Property {
   update(id, data) {
     const property = this.findOne(id);
     const index = this.properties.indexOf(property);
-    this.properties[index].status = data.status || property.status;
-    this.properties[index].price = data.price || property.price;
-    this.properties[index].location = data.location || property.location;
-    this.properties[index].city = data.city || property.city;
-    this.properties[index].address = data.address || property.address;
-    this.properties[index].type = data.type || property.type;
-    this.properties[index].description = data.description || property.description;
-    this.properties[index].title = data.title || property.title;
-    this.properties[index].imageUrl = data.imageUrl || property.imageUrl;
+    this.Properties[index].status = data.status || property.status;
+    this.Properties[index].price = data.price || property.price;
+    this.Properties[index].location = data.location || property.location;
+    this.Properties[index].city = data.city || property.city;
+    this.Properties[index].address = data.address || property.address;
+    this.Properties[index].type = data.type || property.type;
+    this.Properties[index].description = data.description || property.description;
+    this.Properties[index].title = data.title || property.title;
+    this.Properties[index].imageUrl = data.imageUrl || property.imageUrl;
 
     return this.properties[index];
   }

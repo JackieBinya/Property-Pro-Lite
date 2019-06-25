@@ -12,7 +12,7 @@ const createPropertyAd = (req, res) => {
   city.trim();
   type.trim();
   price.trim();
-  description.trim(); 
+  description.trim();
 
   const data = {
     imageUrl,
@@ -30,9 +30,16 @@ const createPropertyAd = (req, res) => {
   res.status(201).json({ data: result });
 };
 
-const fetchAllProperties = (req,res) => {
+const fetchAllProperties = (req, res) => {
   const properties = models.Property.findAll();
   res.status(200).json({ data: properties });
 };
 
-export { createPropertyAd, fetchAllProperties };
+const fetchSpecificProperty = (req, res) => {
+  const { id } = req.params;
+  const result = models.Property.findOne(id);
+  if (result) return res.status(200).json({ data: result });
+  if (!result) return res.status(404).json({ msg: `Property ID:${id} is not found!` });
+};
+
+export { createPropertyAd, fetchAllProperties, fetchSpecificProperty };
