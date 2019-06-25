@@ -1,3 +1,16 @@
+const emailRE = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
+
+const signUpValidator = (req, res, next) => {
+  const { username, email, password } = req.body;
+
+  // Check that all input fields have been filled in
+  if (!username || !email || !password) res.status(400).json({ msg: 'Please fill in all fields' });
+
+  // Validate input
+  if (!emailRE.test(email)) return res.status(400).json({ msg: 'Enter a valid email' });
+  if (password.length < 6) return res.status(400).json({ msg: 'Password should be no less than 6 characters long' });
+  next();
+};
 
 const postPropertyAdValiadator = (req, res, next) => {
   const {
@@ -10,4 +23,4 @@ const postPropertyAdValiadator = (req, res, next) => {
   next();
 };
 
-export { postPropertyAdValiadator };
+export { signUpValidator, postPropertyAdValiadator };
