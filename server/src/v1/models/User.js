@@ -16,9 +16,12 @@ class User {
     return newUser;
   }
 
-  find(prop) {
-    const result = this.users.find(user => user.prop === prop);
-    return result;
+  findByEmail(email) {
+    return this.users.find(user => user.email === email);
+  }
+
+  findById(id) {
+    return this.users.find(user => user.id === id);
   }
 }
 
