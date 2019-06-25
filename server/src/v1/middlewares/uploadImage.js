@@ -13,7 +13,7 @@ const uploadImage = (req, res, next) => {
         msg: 'Something went wrong while processing your request',
         error: err,
       }));
-  }git 
+  }
   if (!req.file) return res.status(400).json({ msg: 'Please upload an image of your property to continue.' });
 };
 
