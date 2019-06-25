@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { signUpValidator } from '../middlewares/inputValidators';
-import { verifyNewUser } from '../middlewares/verify';
-import { createNewUser } from '../controllers/user';
+import { signUpValidator, loginValidator } from '../middlewares/inputValidators';
+import { verifyNewUser, verifyExistingUser } from '../middlewares/verify';
+import { createNewUser, authUser } from '../controllers/user';
 
 const router = Router();
 
-router.post('/', signUpValidator, verifyNewUser, createNewUser);
+router.post('/sign-up', signUpValidator, verifyNewUser, createNewUser);
+router.post('/login', loginValidator, verifyExistingUser, authUser);
 
 export default router;
