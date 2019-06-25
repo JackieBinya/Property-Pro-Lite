@@ -30,4 +30,9 @@ const createPropertyAd = (req, res) => {
   res.status(201).json({ data: result });
 };
 
-export { createPropertyAd };
+const fetchAllProperties = (req,res) => {
+  const properties = models.Property.findAll();
+  res.status(200).json({ data: properties });
+};
+
+export { createPropertyAd, fetchAllProperties };

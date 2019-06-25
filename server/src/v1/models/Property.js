@@ -5,6 +5,11 @@ class Property {
     this.Properties = [];
   }
 
+  //  Fetch all properties
+  findAll() {
+    return this.Properties;
+  }
+
   // Create and save a property
   create({
     status = 'available', price, location, city, address, type, imageUrl, description, title,
