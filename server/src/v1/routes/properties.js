@@ -6,6 +6,7 @@ import {
   createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd,
   fetchMyads, findAdsOfSpecificType,
   updatePropertyAd,
+  markPropertySold,
 } from '../controllers/property';
 import { postPropertyAdValiadator } from '../middlewares/inputValidators';
 import { verifyAuthUser } from '../middlewares/verify';
@@ -23,5 +24,6 @@ router.post('/', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdVal
 router.get('/my-ads', fetchMyads);
 router.delete('/:id', deletePropertyAd);
 router.put('/:id', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, updatePropertyAd);
+router.put('/', markPropertySold);
 
 export default router;

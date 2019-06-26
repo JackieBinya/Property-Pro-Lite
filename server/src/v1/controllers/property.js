@@ -97,7 +97,13 @@ const updatePropertyAd = (req, res) => {
   res.status(201).json({ data: result });
 };
 
+const markPropertySold = (req, res) => {
+  const { id } = req.query;
+  const result = models.Property.markPropertySold(id);
+  res.status(200).json({ data: result });
+};
+
 export {
   createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd, fetchMyads,
-  findAdsOfSpecificType, updatePropertyAd,
+  findAdsOfSpecificType, updatePropertyAd, markPropertySold,
 };

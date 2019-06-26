@@ -59,7 +59,6 @@ class Property {
   update(id, data) {
     const property = this.findOne(id);
     const index = this.Properties.indexOf(property);
-    this.Properties[index].status = data.status || property.status;
     this.Properties[index].price = data.price || property.price;
     this.Properties[index].location = data.location || property.location;
     this.Properties[index].city = data.city || property.city;
@@ -68,6 +67,14 @@ class Property {
     this.Properties[index].description = data.description || property.description;
     this.Properties[index].title = data.title || property.title;
     this.Properties[index].imageUrl = data.imageUrl || property.imageUrl;
+
+    return this.Properties[index];
+  }
+
+  markPropertySold(id) {
+    const property = this.findOne(id);
+    const index = this.Properties.indexOf(property);
+    this.Properties[index].status = 'sold';
 
     return this.Properties[index];
   }
