@@ -38,6 +38,13 @@ const fetchAllProperties = (req, res) => {
   res.status(200).json({ data: properties });
 };
 
+const findAdsOfSpecificType = (req, res) => {
+  let { type } = req.query;
+  type = decodeURI(type);
+  const properties = models.Property.findAdsOfSpecificType(type);
+  res.status(200).json({ data: properties });
+};
+
 const fetchSpecificProperty = (req, res) => {
   const { id } = req.query;
   const result = models.Property.findOne(id);
@@ -60,4 +67,5 @@ const fetchMyads = (req, res) => {
 
 export {
   createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd, fetchMyads,
+  findAdsOfSpecificType,
 };

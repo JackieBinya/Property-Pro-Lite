@@ -14,6 +14,10 @@ class Property {
     return this.Properties.filter(property => property.agentId === agentId); 
   }
 
+  findAdsOfSpecificType(type) {
+    return this.Properties.filter(property => property.type === type);
+  }
+
   // Create and save a property
   create({
     status = 'available', price, location, city, address, type, imageUrl, description, title, agentId,

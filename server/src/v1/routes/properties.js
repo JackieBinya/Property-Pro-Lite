@@ -3,7 +3,7 @@ import { cloudinaryConfig } from '../middlewares/cloudinary';
 import { multerUploads } from '../middlewares/multer';
 import uploadImage from '../middlewares/uploadImage';
 import {
-  createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd, fetchMyads,
+  createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd, fetchMyads, findAdsOfSpecificType,
 } from '../controllers/property';
 import { postPropertyAdValiadator } from '../middlewares/inputValidators';
 import { verifyAuthUser } from '../middlewares/verify';
@@ -12,6 +12,7 @@ const router = Router();
 
 router.get('/', fetchAllProperties);
 router.get('/prop', fetchSpecificProperty);
+router.get('/type', findAdsOfSpecificType);
 
 // Auth user all routes for authenticated user/agents
 router.use(verifyAuthUser);
