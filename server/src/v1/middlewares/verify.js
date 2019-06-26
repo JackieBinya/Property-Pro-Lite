@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import models from '../models';
 
 const verifyNewUser = (req, res, next) => {
@@ -16,4 +17,17 @@ const verifyExistingUser = (req, res, next) => {
   next();
 };
 
-export { verifyNewUser, verifyExistingUser };
+const verifyAuthUser = (req, res, next) => {
+  // Note how you grab token from req.header();
+  const token = req.header('x-auth-token');
+
+  if (!token) return res.status(401).json({ msg: 'No token access denied' });
+
+  jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
+    if (err) return res.status(401).json({ msg: 'No authorisation, token invalid!' });
+    req.decoded = decoded;
+    next();
+  });
+};
+
+export { verifyNewUser, verifyExistingUser, verifyAuthUser };

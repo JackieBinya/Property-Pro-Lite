@@ -1,9 +1,9 @@
 import '../../../env';
 import jwt from 'jsonwebtoken';
 
-const generateToken = (username) => {
+const generateToken = (id) => {
   const token = jwt.sign({
-    payload: username,
+    payload: id,
   },
   process.env.JWT_PRIVATE_KEY);
 
