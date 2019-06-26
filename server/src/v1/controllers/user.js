@@ -22,7 +22,7 @@ const createNewUser = (req, res) => {
       password: hash,
     });
 
-  const token = generateToken(user.username);
+  const token = generateToken(user.id);
   res.status(201).json({
     token,
     user: {
@@ -46,7 +46,7 @@ const authUser = (req, res) => {
     if (err) throw err;
 
     if (isMatch) {
-      const token = generateToken(user.username);
+      const token = generateToken(user.id);
       return res.status(200).json({
         token,
         user: {

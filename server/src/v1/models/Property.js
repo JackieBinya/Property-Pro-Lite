@@ -10,9 +10,13 @@ class Property {
     return this.Properties;
   }
 
+  findAllMyAds(agentId) {
+    return this.Properties.filter(property => property.agentId === agentId); 
+  }
+
   // Create and save a property
   create({
-    status = 'available', price, location, city, address, type, imageUrl, description, title,
+    status = 'available', price, location, city, address, type, imageUrl, description, title, agentId,
   }) {
     const newProperty = {
       id: uuid.v4(),
@@ -26,6 +30,7 @@ class Property {
       description,
       title,
       imageUrl,
+      agentId,
     };
 
     this.Properties.push(newProperty);
@@ -40,16 +45,16 @@ class Property {
 
   // Delete a property
   delete(id) {
-    const property = this.findOne(id);
-    const index = this.Properties.indexOf(property);
-    this.Properties.splice(index, 1);
-    return {};
+    // const property = this.findOne(id);
+    const newProperties = this.Properties.filter(property => property.id !== id);
+    this.Properties = [...newProperties];
+    return true;
   }
 
   // Update a property
   update(id, data) {
     const property = this.findOne(id);
-    const index = this.properties.indexOf(property);
+    const index = this.Properties.indexOf(property);
     this.Properties[index].status = data.status || property.status;
     this.Properties[index].price = data.price || property.price;
     this.Properties[index].location = data.location || property.location;
