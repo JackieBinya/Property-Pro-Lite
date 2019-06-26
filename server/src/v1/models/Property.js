@@ -69,7 +69,7 @@ class Property {
     this.Properties[index].title = data.title || property.title;
     this.Properties[index].imageUrl = data.imageUrl || property.imageUrl;
 
-    return this.properties[index];
+    return this.Properties[index];
   }
 }
 
