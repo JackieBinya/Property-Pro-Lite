@@ -3,7 +3,9 @@ import { cloudinaryConfig } from '../middlewares/cloudinary';
 import { multerUploads } from '../middlewares/multer';
 import uploadImage from '../middlewares/uploadImage';
 import {
-  createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd, fetchMyads, findAdsOfSpecificType,
+  createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd,
+  fetchMyads, findAdsOfSpecificType,
+  updatePropertyAd,
 } from '../controllers/property';
 import { postPropertyAdValiadator } from '../middlewares/inputValidators';
 import { verifyAuthUser } from '../middlewares/verify';
@@ -20,5 +22,6 @@ router.use(verifyAuthUser);
 router.post('/', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, createPropertyAd);
 router.get('/my-ads', fetchMyads);
 router.delete('/:id', deletePropertyAd);
+router.put('/:id', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, updatePropertyAd);
 
 export default router;
