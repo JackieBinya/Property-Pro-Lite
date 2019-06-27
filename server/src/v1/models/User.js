@@ -23,6 +23,10 @@ class User {
   findById(id) {
     return this.users.find(user => user.id === id);
   }
+
+  remove() {
+    this.users = [];
+  }
 }
 
 export default new User();
