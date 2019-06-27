@@ -325,4 +325,22 @@ describe('properties', function () {
         });
     });
   });
+
+  context('GET /type', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
+    it('it should get property ads of a specific type', function (done) {
+      chai
+        .request(app)
+        .get('/api/v1/properties/type')
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          expect(res.body.data).to.be.a('array');
+          expect(res.body.data.length).to.be.equal(0);
+          done(err);
+        });
+    });
+  });
 });
