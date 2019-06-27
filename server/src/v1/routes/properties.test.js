@@ -1,0 +1,234 @@
+/* eslint-disable func-names */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-env mocha */
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../../../app';
+
+chai.use(chaiHttp);
+const { expect } = chai;
+
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiMDk2M2RmOTMtZmI4Ny00ZDc5LWI0YzctY2QwY2U0ZGQ3MzQ4IiwiaWF0IjoxNTYxNTY3NDMzfQ.U-jbZoPtBeAcNFNUqR_C93xnjjH9xr3Yc_T67UK5nPs';
+
+describe('properties', function () {
+  this.timeout(5000);
+  context('POST /', function () {
+    it('should post /', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(201);
+          expect(res.body.data).to.have.key('imageUrl', 'address', 'location', 'city', 'title', 'description', 'price', 'type', 'id', 'agentId', 'status', 'createdOn');
+          expect(res.body.data.imageUrl).to.be.a('string');
+          expect(res.body.data.address).to.equal('4 De Waat Terraces, Goodwood');
+          expect(res.body.data.location).to.equal('Goodwood');
+          expect(res.body.data.city).to.equal('Bulawayo');
+          expect(res.body.data.title).to.equal('One bedroom  in a quiet surburb');
+          expect(res.body.data.description).to.equal('Cosy bedsitter, suitable for singles');
+          expect(res.body.data.price).to.equal('$120');
+          expect(res.body.data.type).to.equal('1 bedroom');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not have token', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        // .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(401);
+          expect(res.body.msg).to.equal('No token access denied')
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not upload image', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        // .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please upload an image of your property to continue.');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not fill in address field', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        // .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not fill in location field', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        // .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not fill in  city field', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        // .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not fill in title field', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        // .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not fill in description field', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        // .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not fill in price field', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        // .field('price', '$120')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+
+    it('should not post / if user does not fill in type field', function (done) {
+      chai
+        .request(app)
+        .post('/api/v1/properties')
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '4 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$120')
+        // .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(400);
+          expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+  });
+});
