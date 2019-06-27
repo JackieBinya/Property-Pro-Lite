@@ -4,6 +4,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../app';
+import models from '../models';
 
 chai.use(chaiHttp);
 const { expect } = chai;
@@ -58,7 +59,7 @@ describe('properties', function () {
         .field('type', '1 bedroom')
         .end(function (err, res) {
           expect(res).to.have.status(401);
-          expect(res.body.msg).to.equal('No token access denied')
+          expect(res.body.msg).to.equal('No token access denied');
           done(err);
         });
     });
@@ -227,6 +228,44 @@ describe('properties', function () {
         .end(function (err, res) {
           expect(res).to.have.status(400);
           expect(res.body.msg).to.equal('Please fill in all fields, to continue...');
+          done(err);
+        });
+    });
+  });
+
+  context('PUT /:id', function () {
+    it('should update an existing ad given its id put/:id', function (done) {
+      const property = models.Property.create({
+        imageUrl: 'http://fake/url',
+        address: '4 De Waat Terraces, Goodwood',
+        location: 'Goodwood',
+        city: 'Bulawayo',
+        title: 'One bedroom  in a quiet surburb',
+        description: 'Cosy bedsitter, suitable for singles',
+        price: '$120',
+        type: '1 bedroom',
+      });
+
+      chai
+        .request(app)
+        .put(`/api/v1/properties/${property.id}`)
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', './src/test-assets/testImg.jpg')
+        .field('address', '43 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$220')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(201);
+          expect(res.body.data).to.be.a('object');
+          expect(res.body.data).to.have.key('imageUrl', 'address', 'location', 'city', 'title', 'description', 'price', 'type', 'id', 'status', 'createdOn');
+          expect(res.body.data.id).to.be.equal(`${property.id}`);
+          expect(res.body.data.price).to.equal('$220');
+          expect(res.body.data.address).to.equal('43 De Waat Terraces, Goodwood');
           done(err);
         });
     });
