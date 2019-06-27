@@ -10,10 +10,13 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiMDk2M2RmOTMtZmI4Ny00ZDc5LWI0YzctY2QwY2U0ZGQ3MzQ4IiwiaWF0IjoxNTYxNTY3NDMzfQ.U-jbZoPtBeAcNFNUqR_C93xnjjH9xr3Yc_T67UK5nPs';
-
 describe('properties', function () {
   this.timeout(5000);
   context('POST /', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
     it('should post /', function (done) {
       chai
         .request(app)
@@ -234,6 +237,10 @@ describe('properties', function () {
   });
 
   context('PUT /:id', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
     it('should update an existing ad given its id put/:id', function (done) {
       const property = models.Property.create({
         imageUrl: 'http://fake/url',
@@ -268,6 +275,25 @@ describe('properties', function () {
           expect(res.body.data.address).to.equal('43 De Waat Terraces, Goodwood');
           done(err);
         });
+    });
+  });
+
+  context('GET /', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
+    it('should get all property ads', function (done) {
+      chai
+        .request(app)
+        .get('/api/v1/properties')
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          expect(res.body.data).to.be.a('array');
+          expect(res.body.data.length).to.equal(0);
+          done(err);
+        });
+
     });
   });
 });

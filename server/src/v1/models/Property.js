@@ -78,6 +78,10 @@ class Property {
 
     return this.Properties[index];
   }
+
+  remove() {
+    this.Properties = [];
+  }
 }
 
 export default new Property();
