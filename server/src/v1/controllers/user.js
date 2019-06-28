@@ -24,11 +24,11 @@ const createNewUser = (req, res) => {
 
   const token = generateToken(user.id);
   res.status(201).json({
-    token,
+    data:{ token,
     user: {
       username: user.username,
       email: user.email,
-    },
+    },}
   });
 };
 
