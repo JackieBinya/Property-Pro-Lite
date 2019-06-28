@@ -4,7 +4,7 @@ const signUpValidator = (req, res, next) => {
   const { username, email, password } = req.body;
 
   // Check that all input fields have been filled in
-  if (!username || !email || !password) res.status(400).json({ msg: 'Please fill in all fields' });
+  if (!username || !email || !password) return res.status(400).json({ msg: 'Please fill in all fields' });
 
   // Validate input
   if (!emailRE.test(email)) return res.status(400).json({ msg: 'Enter a valid email' });
