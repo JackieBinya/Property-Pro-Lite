@@ -55,7 +55,11 @@ const fetchSpecificProperty = (req, res) => {
 const deletePropertyAd = (req, res) => {
   const { id } = req.params;
   const result = models.Property.delete(id);
-  if (result) return res.status(200).json({ msg: `Property Ad Id:${id} is sucessfully deleted` });
+  if (result) {
+    return res.status(200).json({
+      msg: 'Property ad is sucessfully deleted',
+    });
+  }
 };
 
 const fetchMyads = (req, res) => {
