@@ -345,6 +345,10 @@ describe('properties', function () {
   });
 
   context('GET /prop', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
     it('should get a specific property ad', function (done) {
       const property = models.Property.create({
         imageUrl: 'http://fake/url',
@@ -378,6 +382,35 @@ describe('properties', function () {
           expect(res.body.msg).to.be.equal('Property ad is not found!');
           done(err);
         });
-    }); 
+    });
+  });
+
+  context('DELETE /id', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
+    it('should delete a property ad given its id', function (done) {
+      const property = models.Property.create({
+        imageUrl: 'http://fake/url',
+        address: '4 De Waat Terraces, Goodwood',
+        location: 'Goodwood',
+        city: 'Bulawayo',
+        title: 'One bedroom  in a quiet surburb',
+        description: 'Cosy bedsitter, suitable for singles',
+        price: '$120',
+        type: '1 bedroom',
+      });
+
+      chai
+        .request(app)
+        .delete(`/api/v1/properties/${property.id}`)
+        .set('x-auth-token', token)
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          expect(res.body.msg).to.be.equal('Property ad is sucessfully deleted');
+          done(err);
+        });
+    });
   });
 });
