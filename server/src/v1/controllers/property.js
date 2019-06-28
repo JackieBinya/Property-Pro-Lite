@@ -49,7 +49,7 @@ const fetchSpecificProperty = (req, res) => {
   const { id } = req.query;
   const result = models.Property.findOne(id);
   if (result) return res.status(200).json({ data: result });
-  if (!result) return res.status(404).json({ msg: `Property ID:${id} is not found!` });
+  if (!result) return res.status(404).json({ msg: 'Property ad is not found!' });
 };
 
 const deletePropertyAd = (req, res) => {
