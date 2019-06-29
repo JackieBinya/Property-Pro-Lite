@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --require @babel/register './src/**/*.test.js' --exit",
+    "test": "mocha --require @babel/register './server/src/**/*.test.js' --exit",
     "server": "node app.js",
-    "start": "nodemon --exec babel-node app.js"
+    "start": "nodemon --exec babel-node server/src/v1/app.js"
   },
   "keywords": [],
   "author": "",

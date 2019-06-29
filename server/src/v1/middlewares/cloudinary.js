@@ -1,4 +1,4 @@
-import '../../../env';
+import '../../../../env';
 import { config, uploader } from 'cloudinary';
 
 const cloudinaryConfig = (req, res, next) => {

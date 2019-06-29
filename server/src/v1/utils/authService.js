@@ -1,4 +1,4 @@
-import '../../../env';
+import '../../../../env';
 import jwt from 'jsonwebtoken';
 
 const generateToken = (id) => {
