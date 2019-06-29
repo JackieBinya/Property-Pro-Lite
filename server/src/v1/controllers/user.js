@@ -24,11 +24,13 @@ const createNewUser = (req, res) => {
 
   const token = generateToken(user.id);
   res.status(201).json({
-    data:{ token,
-    user: {
-      username: user.username,
-      email: user.email,
-    },}
+    data: {
+      token,
+      user: {
+        username: user.username,
+        email: user.email,
+      }  
+},
   });
 };
 
@@ -48,10 +50,12 @@ const authUser = (req, res) => {
     if (isMatch) {
       const token = generateToken(user.id);
       return res.status(200).json({
-        token,
-        user: {
-          username: user.username,
-          email: user.email,
+        data: {
+          token,
+          user: {
+            username: user.username,
+            email: user.email,
+          },
         },
       });
     }
@@ -61,4 +65,4 @@ const authUser = (req, res) => {
 };
 
 
-export { createNewUser, authUser }
+export { createNewUser, authUser };
