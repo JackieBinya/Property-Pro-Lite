@@ -1,9 +1,34 @@
 import { Router } from 'express';
+import { cloudinaryConfig } from '../middlewares/cloudinary';
+import { multerUploads } from '../middlewares/multer';
+import uploadImage from '../middlewares/uploadImage';
+import {
+  createPropertyAd,
+  fetchAllProperties,
+  fetchSpecificProperty,
+  deletePropertyAd,
+  fetchMyads,
+  findAdsOfSpecificType,
+  updatePropertyAd,
+  markPropertySold,
+} from '../controllers/property';
+import { postPropertyAdValiadator } from '../middlewares/inputValidators';
+import { verifyAuthUser } from '../middlewares/verify';
 
 const router = Router();
 
-router.post('/',(req, res) => res.status(200).json('Hello World'));
+router.get('/', fetchAllProperties);
+router.get('/prop', fetchSpecificProperty);
+router.get('/type', findAdsOfSpecificType);
+
+// Auth user all routes for authenticated user/agents
+router.use(verifyAuthUser);
+
+router.post('/', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, createPropertyAd);
+router.get('/my-ads', fetchMyads);
+router.delete('/:id', deletePropertyAd);
+router.put('/:id', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, updatePropertyAd);
+router.put('/', markPropertySold);
 
 
-
-export default router; 
+export default router;
