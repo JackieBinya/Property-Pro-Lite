@@ -323,6 +323,24 @@ describe('properties', function () {
     });
   });
 
+  context('GET /', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
+    it('should get all property ads', function (done) {
+      chai
+        .request(app)
+        .get('/api/v1/properties')
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          expect(res.body.data).to.be.a('array');
+          expect(res.body.data.length).to.equal(0);
+          done(err);
+        });
+    });
+  });
+
   context('GET /type', function () {
     beforeEach(function (done) {
       models.Property.remove();
