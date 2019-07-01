@@ -280,4 +280,46 @@ describe('properties', function () {
         });
     });
   });
+
+  context('PUT /:id', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
+    it('should update an existing ad given its id put/:id', function (done) {
+      const property = models.Property.create({
+        imageUrl: 'server/src/v1/test-assets/GuitarStudioBanner.jpg',
+        address: '4 De Waat Terraces, Goodwood',
+        location: 'Goodwood',
+        city: 'Bulawayo',
+        title: 'One bedroom  in a quiet surburb',
+        description: 'Cosy bedsitter, suitable for singles',
+        price: '$120',
+        type: '1 bedroom',
+      });
+
+      chai
+        .request(app)
+        .put(`/api/v1/properties/${property.id}`)
+        .set('x-auth-token', token)
+        .type('form')
+        .attach('image', 'server/src/v1/test-assets/GuitarStudioBanner.jpg')
+        .field('address', '43 De Waat Terraces, Goodwood')
+        .field('location', 'Goodwood')
+        .field('city', 'Bulawayo')
+        .field('title', 'One bedroom  in a quiet surburb')
+        .field('description', 'Cosy bedsitter, suitable for singles')
+        .field('price', '$220')
+        .field('type', '1 bedroom')
+        .end(function (err, res) {
+          expect(res).to.have.status(201);
+          expect(res.body.data).to.be.a('object');
+          expect(res.body.data).to.have.key('imageUrl', 'address', 'location', 'city', 'title', 'description', 'price', 'type', 'id', 'status');
+          expect(res.body.data.id).to.be.equal(`${property.id}`);
+          expect(res.body.data.price).to.equal('$220');
+          expect(res.body.data.address).to.equal('43 De Waat Terraces, Goodwood');
+          done(err);
+        });
+    });
+  }); 
 });
