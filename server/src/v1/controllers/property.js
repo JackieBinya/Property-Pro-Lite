@@ -108,6 +108,12 @@ const markPropertySold = (req, res) => {
 };
 
 export {
-  createPropertyAd, fetchAllProperties, fetchSpecificProperty, deletePropertyAd, fetchMyads,
-  findAdsOfSpecificType, updatePropertyAd, markPropertySold,
+  createPropertyAd,
+  fetchAllProperties,
+  fetchSpecificProperty,
+  deletePropertyAd,
+  fetchMyads,
+  findAdsOfSpecificType,
+  updatePropertyAd,
+  markPropertySold,
 };
