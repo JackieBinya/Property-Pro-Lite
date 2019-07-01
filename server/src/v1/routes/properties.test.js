@@ -341,6 +341,36 @@ describe('properties', function () {
     });
   });
 
+  context('PUT /?id=3', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
+    it('should mark an ad as sold given its id', function (done) {
+      const property = models.Property.create({
+        imageUrl: 'server/src/v1/test-assets/GuitarStudioBanner.jpg',
+        address: '4 De Waat Terraces, Goodwood',
+        location: 'Goodwood',
+        city: 'Bulawayo',
+        title: 'One bedroom  in a quiet surburb',
+        description: 'Cosy bedsitter, suitable for singles',
+        price: '$120',
+        type: '1 bedroom',
+      });
+
+      chai
+        .request(app)
+        .put(`/api/v1/properties?id=${property.id}`)
+        .set('x-auth-token', token)
+        .end(function (err, res) {
+          expect(res).to.have.status(200);
+          expect(res.body.data).to.be.a('object');
+          expect(res.body.data.status).to.equal('sold');
+          done(err);
+        });
+    });
+  });
+
   context('GET /type', function () {
     beforeEach(function (done) {
       models.Property.remove();
