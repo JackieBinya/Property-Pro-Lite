@@ -430,6 +430,27 @@ describe('properties', function () {
     });
   });
 
+  context('GET /my-ads', function () {
+    beforeEach(function (done) {
+      models.Property.remove();
+      done();
+    });
+
+    it('should get all ads posted by a particular user given their id', function (done) {
+      const id = 'adc123';
+      chai
+        .request(app)
+        .get(`/api/v1/properties/my-ads?${id}`)
+        .set('x-auth-token', token)
+        .end(function (err, res) {
+          expect(res).to.has.status(200);
+          expect(res.body.data).to.be.a('array');
+          expect(res.body.data.length).to.be.equal(0);
+          done(err);
+        });
+    });
+  });
+
   context('DELETE /id', function () {
     beforeEach(function (done) {
       models.Property.remove();
