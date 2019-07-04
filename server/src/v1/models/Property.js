@@ -1,4 +1,5 @@
 import uuid from 'uuid';
+import moment from 'moment';
 
 class Property {
   constructor() {
@@ -10,8 +11,8 @@ class Property {
     return this.Properties;
   }
 
-  findAllMyAds(agentId) {
-    return this.Properties.filter(property => property.agentId === agentId); 
+  findAllMyAds(id) {
+    return this.Properties.filter(property => property.owner === id);
   }
 
   findAdsOfSpecificType(type) {
@@ -20,20 +21,21 @@ class Property {
 
   // Create and save a property
   create({
-    status = 'available', price, location, city, address, type, imageUrl, description, title, agentId,
+    status = 'available', price, state, city, address, type, imageUrl, description, title, owner,
   }) {
     const newProperty = {
       id: uuid.v4(),
       status,
       price,
-      location,
+      state,
       city,
       address,
       type,
       description,
       title,
       imageUrl,
-      agentId,
+      owner,
+      createdOn: moment(),
     };
 
     this.Properties.push(newProperty);
@@ -59,13 +61,6 @@ class Property {
     const property = this.findOne(id);
     const index = this.Properties.indexOf(property);
     this.Properties[index].price = data.price || property.price;
-    this.Properties[index].location = data.location || property.location;
-    this.Properties[index].city = data.city || property.city;
-    this.Properties[index].address = data.address || property.address;
-    this.Properties[index].type = data.type || property.type;
-    this.Properties[index].description = data.description || property.description;
-    this.Properties[index].title = data.title || property.title;
-    this.Properties[index].imageUrl = data.imageUrl || property.imageUrl;
 
     return this.Properties[index];
   }

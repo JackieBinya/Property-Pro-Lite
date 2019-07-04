@@ -7,8 +7,8 @@ app.use(express.json());
 
 const port = process.env.PORT || 8000;
 
-app.use('/api/v1/users', routes.users);
-app.use('/api/v1/properties', routes.properties);
+app.use('/api/v1/user', routes.users);
+app.use('/api/v1/property', routes.properties);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
 
