@@ -3,10 +3,13 @@ import models from '../models';
 import generateToken from '../utils/authService';
 
 const createNewUser = (req, res) => {
-  const { username, email, password } = req.body;
+  const {
+    firstName, lastName, email, password,
+  } = req.body;
 
   // Trim input
-  username.trim();
+  firstName.trim();
+  lastName.trim();
   email.trim();
   password.trim();
 
@@ -16,18 +19,22 @@ const createNewUser = (req, res) => {
 
   const user = models.User
     .create({
-      username,
+      firstName,
+      lastName,
       email,
       password: hash,
     });
 
   const token = generateToken(user.id);
   res.status(201).json({
+    status: 'success',
     data: {
       token,
       user: {
-        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
+        id: user.id,
       },
     },
   });
@@ -49,17 +56,21 @@ const authUser = (req, res) => {
     if (isMatch) {
       const token = generateToken(user.id);
       return res.status(200).json({
+        status: 'success',
         data: {
           token,
-          user: {
-            username: user.username,
-            email: user.email,
-          },
+          data: user,
         },
       });
     }
 
-    if (!isMatch) return res.status(401).json({ msg: 'Authentification failed incorrect password!' });
+    if (!isMatch) {return res.status(401).json({
+      status: 'failure',
+      data: {
+        msg: 'Authentification failed incorrect password!',
+      },
+    });
+    }
   });
 };
 

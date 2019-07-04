@@ -11,8 +11,8 @@ class Property {
     return this.Properties;
   }
 
-  findAllMyAds(agentId) {
-    return this.Properties.filter(property => property.agentId === agentId);
+  findAllMyAds(id) {
+    return this.Properties.filter(property => property.owner === id);
   }
 
   findAdsOfSpecificType(type) {
@@ -35,7 +35,7 @@ class Property {
       title,
       imageUrl,
       owner,
-      createdOn: moment.now(),
+      createdOn: moment(),
     };
 
     this.Properties.push(newProperty);
@@ -61,13 +61,6 @@ class Property {
     const property = this.findOne(id);
     const index = this.Properties.indexOf(property);
     this.Properties[index].price = data.price || property.price;
-    this.Properties[index].state = data.state || property.state;
-    this.Properties[index].city = data.city || property.city; 
-    this.Properties[index].address = data.address || property.address;
-    this.Properties[index].type = data.type || property.type;
-    this.Properties[index].description = data.description || property.description;
-    this.Properties[index].title = data.title || property.title;
-    // this.Properties[index].imageUrl = data.imageUrl || property.imageUrl;
 
     return this.Properties[index];
   }

@@ -6,10 +6,8 @@ import { createNewUser, authUser } from '../controllers/user';
 
 const router = Router();
 
-router.post('/', (req, res) => res.status(200).json('Hello World'));
-
-router.post('/sign-up', signUpValidator, verifyNewUser, createNewUser);
-router.post('/login', loginValidator, verifyExistingUser, authUser);
+router.post('/auth/signup', signUpValidator, verifyNewUser, createNewUser);
+router.post('/auth/signin', loginValidator, verifyExistingUser, authUser);
 
 
 export default router;

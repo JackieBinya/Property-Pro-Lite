@@ -12,7 +12,7 @@ import {
   updatePropertyAd,
   markPropertySold,
 } from '../controllers/property';
-import { postPropertyAdValiadator } from '../middlewares/inputValidators';
+import { postPropertyAdValiadator, updatePropertyAdValidator } from '../middlewares/inputValidators';
 import { verifyAuthUser } from '../middlewares/verify';
 
 const router = Router();
@@ -27,8 +27,8 @@ router.use(verifyAuthUser);
 router.post('/', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, createPropertyAd);
 router.get('/my-ads', fetchMyads);
 router.delete('/:id', deletePropertyAd);
-router.put('/:id', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, updatePropertyAd);
-router.put('/', markPropertySold);
+router.patch('/:id', updatePropertyAdValidator, updatePropertyAd);
+router.patch('/:id/sold', markPropertySold);
 
 
 export default router;

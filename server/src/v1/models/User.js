@@ -6,13 +6,11 @@ class User {
   }
 
   create({
-    firstName, lastName, address, email, password,
+    firstName, lastName, email, password,
   }) {
     const newUser = {
       firstName,
       lastName,
-      address,
-      isAdmin: true,
       email,
       password,
       id: uuid.v4(),
