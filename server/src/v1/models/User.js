@@ -5,9 +5,14 @@ class User {
     this.users = [];
   }
 
-  create({ username, email, password }) {
+  create({
+    firstName, lastName, address, email, password,
+  }) {
     const newUser = {
-      username,
+      firstName,
+      lastName,
+      address,
+      isAdmin: true,
       email,
       password,
       id: uuid.v4(),
