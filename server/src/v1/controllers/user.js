@@ -59,7 +59,11 @@ const authUser = (req, res) => {
         status: 'success',
         data: {
           token,
-          data: user,
+          data: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          },
         },
       });
     }
