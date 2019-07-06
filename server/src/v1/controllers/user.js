@@ -59,17 +59,20 @@ const authUser = (req, res) => {
         status: 'success',
         data: {
           token,
-          data: user,
+          data: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+          },
         },
       });
     }
 
-    if (!isMatch) {return res.status(401).json({
-      status: 'failure',
-      data: {
+    if (!isMatch) {
+      return res.status(401).json({
+        status: 'error',
         msg: 'Authentification failed incorrect password!',
-      },
-    });
+      });
     }
   });
 };

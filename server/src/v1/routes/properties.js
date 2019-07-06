@@ -9,10 +9,15 @@ import {
   deletePropertyAd,
   fetchMyads,
   findAdsOfSpecificType,
-  updatePropertyAd,
   markPropertySold,
+  editPropertyAdImage,
+  editPropertyAd,
 } from '../controllers/property';
-import { postPropertyAdValiadator, updatePropertyAdValidator } from '../middlewares/inputValidators';
+import {
+  postPropertyAdValiadator,
+  editPropertyAdPriceValidator,
+  editPropertyAdTitleValidator,
+} from '../middlewares/inputValidators';
 import { verifyAuthUser } from '../middlewares/verify';
 
 const router = Router();
@@ -27,8 +32,10 @@ router.use(verifyAuthUser);
 router.post('/', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, createPropertyAd);
 router.get('/my-ads', fetchMyads);
 router.delete('/:id', deletePropertyAd);
-router.patch('/:id', updatePropertyAdValidator, updatePropertyAd);
 router.patch('/:id/sold', markPropertySold);
+router.patch('/:id/image', cloudinaryConfig, multerUploads, uploadImage, editPropertyAdImage);
+router.patch('/:id/price', editPropertyAdPriceValidator, editPropertyAd);
+router.patch('/:id/title', editPropertyAdTitleValidator, editPropertyAd);
 
 
 export default router;
