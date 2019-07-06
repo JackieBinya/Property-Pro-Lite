@@ -57,18 +57,18 @@ const findAdsOfSpecificType = (req, res) => {
 const fetchSpecificProperty = (req, res) => {
   const { id } = req.query;
   const result = models.Property.findOne(id);
+
   if (result) {
     return res.status(200).json({
       status: 'success',
       data: result,
     });
   }
+
   if (!result) {
     return res.status(404).json({
-      status: 'failure',
-      data: {
-        msg: 'Property ad is not found!',
-      },
+      status: 'error',
+      msg: 'Property ad is not found!',
     });
   }
 };
@@ -76,12 +76,11 @@ const fetchSpecificProperty = (req, res) => {
 const deletePropertyAd = (req, res) => {
   const { id } = req.params;
   const result = models.Property.delete(id);
+
   if (result) {
     return res.status(200).json({
       status: 'success',
-      data: {
-        msg: 'Property ad is sucessfully deleted',
-      },
+      msg: 'Property ad is sucessfully deleted',
     });
   }
 };
@@ -89,22 +88,43 @@ const deletePropertyAd = (req, res) => {
 const fetchMyads = (req, res) => {
   const id = req.decoded.payload;
   const properties = models.Property.findAllMyAds(id);
-  if (properties.length) return res.status(200).json({ data: properties });
-  if (!properties.length) return res.status(200).json({ data: { msg: 'No properties found!' } });
+
+  if (properties.length) {
+    return res.status(200).json({
+      status: 'success',
+      data: properties,
+    });
+  }
+
+  if (!properties.length) {
+    return res.status(404).json({
+      status: 'error',
+      msg: { msg: 'No properties found!' },
+    });
+  }
 };
 
-const updatePropertyAd = (req, res) => {
+const editPropertyAd = (req, res) => {
   const { id } = req.params;
-  // const { imageUrl } = req;
-
-  const { price } = req.body;
-
+  const { price, title } = req.body;
   const data = {
+    title,
     price,
   };
-
   const result = models.Property.update(id, data);
+  res.status(201).json({
+    status: 'success',
+    data: result,
+  });
+};
 
+const editPropertyAdImage = (req, res) => {
+  const { id } = req.params;
+  const { imageUrl } = req;
+  const data = {
+    imageUrl,
+  };
+  const result = models.Property.update(id, data);
   res.status(201).json({
     status: 'success',
     data: result,
@@ -127,6 +147,7 @@ export {
   deletePropertyAd,
   fetchMyads,
   findAdsOfSpecificType,
-  updatePropertyAd,
+  editPropertyAd,
+  editPropertyAdImage,
   markPropertySold,
 };

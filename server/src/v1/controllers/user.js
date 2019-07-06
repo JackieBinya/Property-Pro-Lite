@@ -68,12 +68,11 @@ const authUser = (req, res) => {
       });
     }
 
-    if (!isMatch) {return res.status(401).json({
-      status: 'failure',
-      data: {
+    if (!isMatch) {
+      return res.status(401).json({
+        status: 'error',
         msg: 'Authentification failed incorrect password!',
-      },
-    });
+      });
     }
   });
 };

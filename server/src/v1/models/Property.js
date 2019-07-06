@@ -60,7 +60,18 @@ class Property {
   update(id, data) {
     const property = this.findOne(id);
     const index = this.Properties.indexOf(property);
-    this.Properties[index].price = data.price || property.price;
+
+    if (data.price) {
+      this.Properties[index].price = data.price;
+    }
+
+    if (data.imageUrl) {
+      this.Properties[index].imageUrl = data.imageUrl;
+    }
+
+    if (data.title) {
+      this.Properties[index].title = data.title;
+    }
 
     return this.Properties[index];
   }
