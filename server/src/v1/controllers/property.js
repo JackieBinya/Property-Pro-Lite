@@ -49,13 +49,13 @@ const findAdsOfSpecificType = (req, res) => {
   type = decodeURI(type);
   const properties = models.Property.findAdsOfSpecificType(type);
   res.status(200).json({
-    status: 'sucess',
+    status: 'success',
     data: properties,
   });
 };
 
 const fetchSpecificProperty = (req, res) => {
-  const { id } = req.query;
+  const { id } = req.params;
   const result = models.Property.findOne(id);
 
   if (result) {
@@ -66,7 +66,7 @@ const fetchSpecificProperty = (req, res) => {
   }
 
   if (!result) {
-    return res.status(404).json({
+    return res.status(400).json({
       status: 'error',
       msg: 'Property ad is not found!',
     });
@@ -97,13 +97,12 @@ const fetchMyads = (req, res) => {
   }
 
   if (!properties.length) {
-    return res.status(404).json({
+    return res.status(400).json({
       status: 'error',
-      msg: { msg: 'No properties found!' },
+      msg: 'No properties found!',
     });
   }
 };
-
 const editPropertyAd = (req, res) => {
   const { id } = req.params;
   const { price, title } = req.body;

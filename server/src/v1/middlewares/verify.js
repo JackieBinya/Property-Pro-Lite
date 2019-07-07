@@ -40,7 +40,7 @@ const verifyAuthUser = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
     if (err) {
-      return res.status(401).json({
+      return res.status(400).json({
         status: 'error',
         msg: 'No authorisation, token invalid!',
       });
