@@ -46,7 +46,7 @@ const authUser = (req, res) => {
   // Trim input
   email.trim();
   password.trim();
-
+  
   const user = models.User.findByEmail(email);
 
   bcrypt.compare(password, user.password, (err, isMatch) => {
@@ -59,7 +59,7 @@ const authUser = (req, res) => {
         status: 'success',
         data: {
           token,
-          data: {
+          user: {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -69,7 +69,7 @@ const authUser = (req, res) => {
     }
 
     if (!isMatch) {
-      return res.status(401).json({
+      return res.status(400).json({
         status: 'error',
         msg: 'Authentification failed incorrect password!',
       });

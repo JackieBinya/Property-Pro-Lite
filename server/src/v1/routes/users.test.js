@@ -10,7 +10,8 @@ import models from '../models';
 chai.use(chaiHttp);
 const { expect } = chai;
 
-describe('users', function () { 
+describe('users', function () {
+  this.timeout(100000);
   context('POST /auth/signup', function () {
     beforeEach(function (done) {
       models.User.remove();
@@ -28,7 +29,7 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(201);
-          expect(res.body.status).to.be.equal('success')
+          expect(res.body.status).to.be.equal('success');
           expect(res.body.data).to.be.a('object');
           expect(res.body.data).to.have.property('token');
           expect(res.body.data.token).to.be.a('string');
@@ -52,7 +53,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
-          expect(res.body.msg).to.equal('Please fill in all fields.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.equal('Please enter your first name.');
           done(err);
         });
     });
@@ -62,14 +64,15 @@ describe('users', function () {
         .request(app)
         .post('/api/v1/user/auth/signup')
         .send({
-          firstname: 'foo',
+          firstName: 'foo',
           lastName: '',
           email: 'foo@bar.com',
           password: '123456',
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
-          expect(res.body.msg).to.equal('Please fill in all fields.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.equal('Please enter your last name.');
           done(err);
         });
     });
@@ -86,7 +89,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
-          expect(res.body.msg).to.equal('Please fill in all fields.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.equal('Please enter your email.');
           done(err);
         });
     });
@@ -103,7 +107,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
-          expect(res.body.msg).to.equal('Please fill in all fields.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.equal('Please enter your password.');
           done(err);
         });
     });
@@ -121,8 +126,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
-          expect(res.body.data).to.be.a('object')
-          expect(res.body.data.msg).to.equal('Password should be no less than 6 characters long.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.equal('Password should be no less than 6 characters long.');
           done(err);
         });
     });
@@ -145,7 +150,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
-          expect(res.body.data.msg).to.equal('Your email is already registered in the app, you are only allowed to have one account.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.equal('Your email is already registered in the app, you are only allowed to have one account.');
           done(err);
         });
     });
@@ -162,7 +168,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(400);
-          expect(res.body.data.msg).to.equal('Enter a valid email.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.equal('Email invalid!');
           done(err);
         });
     });
@@ -192,6 +199,7 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
           expect(res.body.data).to.be.a('object');
           expect(res.body.data).to.have.property('token');
           expect(res.body.data.token).to.be.a('string');
@@ -215,7 +223,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.has.status(400);
-          expect(res.body.data.msg).to.be.equal('Enter a valid email.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.be.equal('Email invalid!');
           done(err);
         });
     });
@@ -230,7 +239,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.has.status(400);
-          expect(res.body.msg).to.be.equal('Please fill in all fields.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.be.equal('Please enter your email.');
           done(err);
         });
     });
@@ -245,12 +255,13 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.has.status(400);
-          expect(res.body.data.msg).to.be.equal('Please fill in all fields.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.be.equal('Please enter your password.');
           done(err);
         });
     });
 
-    it('should not authenticate if user provides a password less than 6 charecters long', function (done) {
+    it('should not authenticate if user provides a password less than 6 characters long', function (done) {
       chai
         .request(app)
         .post('/api/v1/user/auth/signin')
@@ -260,7 +271,8 @@ describe('users', function () {
         })
         .end(function (err, res) {
           expect(res).to.has.status(400);
-          expect(res.body.data.msg).to.be.equal('Password should be no less than 6 characters long.');
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.be.equal('Password should be no less than 6 characters long.');
           done(err);
         });
     });
@@ -277,13 +289,12 @@ describe('users', function () {
         .post('/api/v1/user/auth/signin')
         .send({
           email: 'foo@bar.com',
-          password: '123456',
+          password: 'abcdeq',
         })
         .end(function (err, res) {
-          expect(res).to.have.status(401);
-          expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('data');
-          expect(res.body.data.msg).to.be.a('string');
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.msg).to.be.a('string');
           expect(res.body.msg).to.be.equal('Authentification failed incorrect password!');
           done(err);
         });

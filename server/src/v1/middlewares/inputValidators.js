@@ -1,5 +1,3 @@
-import { image } from "cloudinary/lib-es5/cloudinary";
-
 const emailRE = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 
 const signUpValidator = (req, res, next) => {
@@ -18,21 +16,21 @@ const signUpValidator = (req, res, next) => {
   if (!lastName) {
     return res.status(400).json({
       status: 'error',
-      msg: 'Please enter your last name',
+      msg: 'Please enter your last name.',
     });
   }
 
   if (!email) {
     return res.status(400).json({
       status: 'error',
-      msg: 'Please enter your email',
+      msg: 'Please enter your email.',
     });
   }
 
-  if (!email) {
+  if (!password) {
     return res.status(400).json({
       status: 'error',
-      msg: 'Please enter your password',
+      msg: 'Please enter your password.',
     });
   }
 
@@ -40,10 +38,9 @@ const signUpValidator = (req, res, next) => {
   if (!emailRE.test(email)) {
     return res.status(400).json({
       status: 'error',
-      msg: 'Email invalid',
+      msg: 'Email invalid!',
     });
   }
-
   if (password.length < 6) {
     return res.status(400).json({
       status: 'error',
@@ -59,21 +56,14 @@ const loginValidator = (req, res, next) => {
   if (!email) {
     return res.status(400).json({
       status: 'error',
-      msg: 'Please enter your email',
+      msg: 'Please enter your email.',
     });
   }
 
   if (!password) {
     return res.status(400).json({
       status: 'error',
-      msg: 'Please  enter your password.',
-    });
-  }
-
-  if (!emailRE.test(email)) {
-    return res.status(400).json({
-      status: 'error',
-      error: 'Email invalid',
+      msg: 'Please enter your password.',
     });
   }
 
@@ -84,7 +74,12 @@ const loginValidator = (req, res, next) => {
     });
   }
 
-  if (!emailRE.test(email)) return res.status(400).json({ msg: 'Enter a valid email.' });
+  if (!emailRE.test(email)) {
+    return res.status(400).json({
+      status: 'error',
+      msg: 'Email invalid!',
+    });
+  }
   next();
 };
 
@@ -96,63 +91,63 @@ const postPropertyAdValiadator = (req, res, next) => {
   if (!title) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please provide the title.',
+      msg: 'Please provide a title for your property ad.',
     });
   }
 
   if (!address) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please provide the address of your property.',
+      msg: 'Please provide the address of your property.',
     });
   }
 
   if (!state) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please provide the state in which your property is located.',
+      msg: 'Please provide the state in which your property is located.',
     });
   }
 
   if (!city) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please provide the city where your property is located.',
+      msg: 'Please provide the city where your property is located.',
     });
   }
 
   if (!description) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please provide a description of your property.',
+      msg: 'Please provide a description of your property.',
     });
   }
 
   if (!price) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please provide a price of your property.',
+      msg: 'Please provide a price of your property.',
     });
   }
 
   if (!type) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please select a type that matches your property.',
+      msg: 'Please select a type that matches your property.',
     });
   }
 
   if (title.length > 40) {
     return res.status(400).json({
       status: 'error',
-      error: 'The title is too long,  make sure its no more than 45 characters long!',
+      msg: 'The title is too long, make sure its no more than 45 characters long!',
     });
   }
 
   if (description.length > 200) {
     return res.status(400).json({
       status: 'error',
-      error: 'The description is too long,  make sure its no more than 150 characters long!',
+      msg: 'The description is too long, make sure its no more than 150 characters long!',
     });
   }
   next();
@@ -163,7 +158,7 @@ const editPropertyAdPriceValidator = (req, res, next) => {
   if (!price) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please enter the price of your property.',
+      msg: 'Please enter the price of your property.',
     });
   }
   next();
@@ -174,7 +169,7 @@ const editPropertyAdTitleValidator = (req, res, next) => {
   if (!title) {
     return res.status(400).json({
       status: 'error',
-      error: 'Please enter a title of your property ad.',
+      msg: 'Please enter a title of your property ad.',
     });
   }
   next();

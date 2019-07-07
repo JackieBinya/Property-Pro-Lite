@@ -23,7 +23,7 @@ import { verifyAuthUser } from '../middlewares/verify';
 const router = Router();
 
 router.get('/', fetchAllProperties);
-router.get('/prop', fetchSpecificProperty);
+router.get('/:id/specific-property', fetchSpecificProperty);
 router.get('/type', findAdsOfSpecificType);
 
 // Auth user all routes for authenticated user/agents
