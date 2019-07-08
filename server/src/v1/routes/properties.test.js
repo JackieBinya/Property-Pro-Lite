@@ -13,7 +13,7 @@ const { expect } = chai;
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiMDk2M2RmOTMtZmI4Ny00ZDc5LWI0YzctY2QwY2U0ZGQ3MzQ4IiwiaWF0IjoxNTYxNTY3NDMzfQ.U-jbZoPtBeAcNFNUqR_C93xnjjH9xr3Yc_T67UK5nPs';
 
 describe('properties', function () {
-  this.timeout(30000);
+  this.timeout(100000);
 
   context('POST /', function () {
     beforeEach(function (done) {
