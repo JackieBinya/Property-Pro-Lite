@@ -5,8 +5,6 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --require @babel/register './server/src/**/*.test.js' --exit",
-    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
-    "coverage": "nyc npm run test && npm run generate-lcov ",
     "server": "node app.js",
     "start": "nodemon --exec babel-node server/src/v1/app.js"
   },
