@@ -6,9 +6,7 @@
   "scripts": {
     "test": "mocha --require @babel/register './server/src/**/*.test.js' --exit",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
-    "coveralls-coverage": "coveralls < lcov.info",
-    "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
-    "coverage": "nyc npm run test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
+    "coverage": "nyc npm run test && npm run generate-lcov ",
     "server": "node app.js",
     "start": "nodemon --exec babel-node server/src/v1/app.js"
   },
