@@ -54,6 +54,7 @@ describe('properties', function () {
       chai
         .request(app)
         .post('/api/v1/property')
+        .set('x-auth-token', '')
         .type('form')
         .attach('image', 'server/src/v1/test-assets/QuickFish.jpg')
         .field('address', '4 De Waat Terraces, Goodwood')

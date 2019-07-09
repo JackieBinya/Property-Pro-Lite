@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8001;
 
 app.use('/api/v1/user', routes.users);
 app.use('/api/v1/property', routes.properties);
