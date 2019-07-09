@@ -441,13 +441,13 @@ background-color: rgb(255, 255, 255);
     color: rgb(0, 0, 255);
   }
   .headline {
-    color: white;
+    color: rgb(255, 255, 255);
     display: block;
     margin-bottom: 0.3em;
   }
   
   .copyright-line {
-    color:white;
+    color: rgb(255, 255, 255);
     text-align: right;
     display: block;
     margin-top: .2em 1em;
@@ -460,15 +460,16 @@ background-color: rgb(255, 255, 255);
   }
 
   @media only screen and (min-width: 768px) {
-      .footer {
-          height: 35vh;
-      }
-
+    .footer {
+      padding: 0.1em;
+    }
+     
       .resources {
           display: block;
       }
 
       .main-footer {
+        padding: 0.5em;
         justify-content: space-evenly; 
         align-items: center; 
       }
