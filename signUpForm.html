@@ -1,4 +1,4 @@
-n<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,10 +15,7 @@ n<!DOCTYPE html>
             <p>
                 <a href="./index.html" class="logo-sec">Property Pro Lite</a>
             </p>
-                            
-            <p>
-                <a href="#">Logout</a>
-            </p>
+                    
         </div>
     </header>
 
@@ -29,28 +26,30 @@ n<!DOCTYPE html>
             </div>
             <h2>Sign Up</h2>
             <div class="display-msg">
-                <p>Passwords do not match, please try again!</p>
+                <p class="error-passage"></p>
                 <div>
                     <button class="del-msg">&times;</button>
                 </div>
             </div>  
             <form action="" class="signUpForm">
                 <div>
-                    <input type="text" placeholder="Username" required>
+                    <input class="username" type="text" placeholder="Username">
                 </div>
 
                 <div>
-                    <input type="email" placeholder="Email" required>
+                    <input class="email" type="email" placeholder="Email">
                 </div>
 
                 <div>
-                    <input type="text" placeholder="Password" required>
+                    <input class="password1" type="text" placeholder="Password">
                 </div>
                 <div>
-                    <input type="text" placeholder="Confirm password" required>
+                    <input class="password2" type="text" placeholder="Confirm password">
                 </div>
-    
-                <button type="submit">Submit</button>
+               
+                <button  class="submit-btn" type="submit">Submit</button>
+                <span class="ad-headliner">Already using Property Pro Lite?</span>    
+                <a class="ad-extenalLink" href="./loginForm.html">Login.</a>
             </form>
         </div>
     </main>
