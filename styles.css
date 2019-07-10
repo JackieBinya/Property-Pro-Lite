@@ -329,7 +329,16 @@ background-color: rgb(255, 255, 255);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem; 
+  margin-bottom: 0.5rem;
+  display: none;
+}
+
+.ad-headliner, .ad-extenalLink {
+  font-size: 0.8rem;
+}
+
+.ad-extenalLink {
+  text-decoration: underline;
 }
 
 .sold {
