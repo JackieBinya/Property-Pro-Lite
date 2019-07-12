@@ -11,7 +11,7 @@ Kigali, Rwanda`));
 
 const port = process.env.PORT || 8001;
 
-app.use('/api/v1/user', routes.users);
+app.use('/api/v1', routes.users);
 app.use('/api/v1/property', routes.properties);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

@@ -20,7 +20,7 @@ describe('users', function () {
     it('should register & authenticate a user if provided sufficient details', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'foo',
           lastName: 'bar',
@@ -44,7 +44,7 @@ describe('users', function () {
     it('should not sign up a user if firstname field is not filled', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstname: '',
           lastName: 'bar',
@@ -62,7 +62,7 @@ describe('users', function () {
     it('should not sign up a user if lastname field is not filled', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'foo',
           lastName: '',
@@ -80,7 +80,7 @@ describe('users', function () {
     it('should not sign up a user if email field is not filled', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'foo',
           lastName: 'bar',
@@ -98,7 +98,7 @@ describe('users', function () {
     it('should not sign up a user if password field is not filled', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'foo',
           lastName: 'bar',
@@ -117,7 +117,7 @@ describe('users', function () {
     it('should not sign up a user if password is less than 6 characters long', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'foo',
           lastName: 'bar',
@@ -141,7 +141,7 @@ describe('users', function () {
       });
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'foo',
           lastName: 'bar',
@@ -159,7 +159,7 @@ describe('users', function () {
     it('should not register a user who provides an invalid email', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signup')
+        .post('/api/v1/auth/signup')
         .send({
           firstName: 'foo',
           lastName: 'bar',
@@ -192,7 +192,7 @@ describe('users', function () {
       });
       chai
         .request(app)
-        .post('/api/v1/user/auth/signin')
+        .post('/api/v1/auth/signin')
         .send({
           email: 'foo@bar.com',
           password: '123456',
@@ -216,7 +216,7 @@ describe('users', function () {
     it('should not authenticate if user provides an invalid email', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signin')
+        .post('/api/v1/auth/signin')
         .send({
           email: 'foobar.com',
           password: '123456',
@@ -232,7 +232,7 @@ describe('users', function () {
     it('should not authenticate if user does not provide email', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signin')
+        .post('/api/v1/auth/signin')
         .send({
           email: '',
           password: '123456',
@@ -248,7 +248,7 @@ describe('users', function () {
     it('should not authenticate if user does not provide password', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signin')
+        .post('/api/v1/auth/signin')
         .send({
           email: 'foo@bar.com',
           password: '',
@@ -264,7 +264,7 @@ describe('users', function () {
     it('should not authenticate if user provides a password less than 6 characters long', function (done) {
       chai
         .request(app)
-        .post('/api/v1/user/auth/signin')
+        .post('/api/v1/auth/signin')
         .send({
           email: 'foo@bar.com',
           password: '23456',
@@ -286,7 +286,7 @@ describe('users', function () {
       });
       chai
         .request(app)
-        .post('/api/v1/user/auth/signin')
+        .post('/api/v1/auth/signin')
         .send({
           email: 'foo@bar.com',
           password: 'abcdeq',
