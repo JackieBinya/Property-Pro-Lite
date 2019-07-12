@@ -1,6 +1,5 @@
 const emailRE = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 const priceRE = /^(([$])?((([0-9]{1,3},)+[0-9]{3})|[0-9]+)(\.[0-9]{2})?)$/;
-const acceptedExtensions = ['jpg', 'png'];
 
 const signUpValidator = (req, res, next) => {
   const {

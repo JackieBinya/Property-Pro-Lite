@@ -45,8 +45,8 @@ const findAdsOfSpecificType = (req, res) => {
 };
 
 const fetchSpecificProperty = (req, res) => {
-  const { id } = req.params;
-  const result = models.Property.findOne(id);
+  const { propertyId } = req.params;
+  const result = models.Property.findOne(propertyId);
 
   if (result) {
     return res.status(200).json({
@@ -64,8 +64,8 @@ const fetchSpecificProperty = (req, res) => {
 };
 
 const deletePropertyAd = (req, res) => {
-  const { id } = req.params;
-  const result = models.Property.delete(id);
+  const { propertyId } = req.params;
+  const result = models.Property.delete(propertyId);
 
   if (result) {
     return res.status(200).json({
@@ -95,7 +95,7 @@ const fetchMyads = (req, res) => {
 };
 
 const editPropertyAd = (req, res) => {
-  const { id } = req.params;
+  const { propertyId } = req.params;
 
   const obj = Object.assign({}, req.body);
 
@@ -111,7 +111,7 @@ const editPropertyAd = (req, res) => {
     }
   });
 
-  const result = models.Property.update(id, obj);
+  const result = models.Property.update(propertyId, obj);
   res.status(200).json({
     status: 'success',
     data: result,
@@ -119,8 +119,8 @@ const editPropertyAd = (req, res) => {
 };
 
 const markPropertySold = (req, res) => {
-  const { id } = req.params;
-  const result = models.Property.markPropertySold(id);
+  const { propertyId } = req.params;
+  const result = models.Property.markPropertySold(propertyId);
   res.status(200).json({
     status: 'success',
     data: result,

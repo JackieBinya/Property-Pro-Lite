@@ -51,8 +51,8 @@ const verifyAuthUser = (req, res, next) => {
 };
 
 const verifyExistingProperty = (req, res, next) => {
-  const { id } = req.params;
-  const result = models.Property.findOne(id);
+  const { propertyId } = req.params;
+  const result = models.Property.findOne(propertyId);
   if (!result) {
     return res.status(400).json({
       status: 'error',
@@ -64,10 +64,8 @@ const verifyExistingProperty = (req, res, next) => {
 
 const verifyPropertyBelongsToUser = (req, res, next) => {
   const id = req.decoded.payload;
-  const { id: propertyId } = req.params;
+  const { propertyId } = req.params;
   const result = models.Property.findOne(propertyId);
-  console.log(`owner: ${result.owner}`);
-  console.log(`id from token ${id}`);
   if (result.owner !== id ) {
     return res.status(400).json({
       status: 'error',

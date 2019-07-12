@@ -21,7 +21,7 @@ import { verifyAuthUser, verifyExistingProperty, verifyPropertyBelongsToUser } f
 const router = Router();
 
 router.get('/', fetchAllProperties);
-router.get('/:id/specific-property', fetchSpecificProperty);
+router.get('/:propertyId/specific-property', fetchSpecificProperty);
 router.get('/type', findAdsOfSpecificType);
 
 // Auth user all routes for authenticated user/agents
@@ -29,8 +29,8 @@ router.use(verifyAuthUser);
 
 router.post('/', cloudinaryConfig, multerUpload, imageFormatValidator, uploadImage, postPropertyAdValiadator, createPropertyAd);
 router.get('/my-ads', fetchMyads);
-router.delete('/:id', verifyExistingProperty, verifyPropertyBelongsToUser, deletePropertyAd);
-router.patch('/:id/sold', verifyExistingProperty, verifyPropertyBelongsToUser, markPropertySold);
-router.patch('/:id', verifyExistingProperty, verifyPropertyBelongsToUser, editAdValidator, editPropertyAd );
+router.delete('/:propertyId', verifyExistingProperty, verifyPropertyBelongsToUser, deletePropertyAd);
+router.patch('/:propertyId/sold', verifyExistingProperty, verifyPropertyBelongsToUser, markPropertySold);
+router.patch('/:propertyId', verifyExistingProperty, verifyPropertyBelongsToUser, editAdValidator, editPropertyAd);
 
 export default router;
