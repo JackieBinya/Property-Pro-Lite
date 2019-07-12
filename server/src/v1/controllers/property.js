@@ -28,9 +28,15 @@ const createPropertyAd = (req, res) => {
 
 const fetchAllProperties = (req, res) => {
   const properties = models.Property.findAll();
-  res.status(200).json({
-    status: 'success',
-    data: properties,
+  if (properties.length) {
+    res.status(200).json({
+      status: 'success',
+      data: properties,
+    });
+  }
+  return res.status(404).json({
+    status: 'error',
+    msg: 'No properties found',
   });
 };
 
