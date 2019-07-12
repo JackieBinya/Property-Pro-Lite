@@ -1,5 +1,9 @@
+import Datauri from 'datauri';
+import path from 'path';
 import { uploader } from './cloudinary';
-import { dataUri } from './multer';
+
+const dUri = new Datauri();
+const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
 
 const uploadImage = (req, res, next) => {
   if (req.file) {
@@ -9,7 +13,7 @@ const uploadImage = (req, res, next) => {
         req.imageUrl = result.url;
         next();
       })
-      .catch(err => res.status(400).json({
+      .catch(err => res.status(500).json({
         status: 'error',
         msg: 'Something went wrong while processing your request.',
         error: err,
@@ -23,4 +27,20 @@ const uploadImage = (req, res, next) => {
   }
 };
 
-export default uploadImage;
+const editImage = (req, res, next) => {
+  if (req.file) {
+    const file = dataUri(req).content;
+    uploader.upload(file)
+      .then((result) => {
+        req.imageUrl = result.url;
+        next();
+      })
+      .catch(err => res.status(500).json({
+        status: 'error',
+        msg: 'Something went wrong while processing your request.',
+        error: err,
+      }));
+  }
+};
+
+export { uploadImage, editImage };

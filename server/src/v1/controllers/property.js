@@ -8,27 +8,17 @@ const createPropertyAd = (req, res) => {
     title, address, state, city, type, price, description,
   } = req.body;
 
-  title.trim();
-  address.trim();
-  state.trim();
-  city.trim();
-  type.trim();
-  price.trim();
-  description.trim();
-
-  const data = {
+  const result = models.Property.create({
     imageUrl,
-    title,
-    address,
-    state,
-    city,
-    type,
-    price,
-    description,
+    title: title.trim(),
+    address: address.trim(),
+    state: state.trim(),
+    city: city.trim(),
+    type: type.trim(),
+    price: price.trim(),
+    description: description.trim(),
     owner,
-  };
-
-  const result = models.Property.create(data);
+  });
 
   res.status(201).json({
     status: 'success',
@@ -103,28 +93,26 @@ const fetchMyads = (req, res) => {
     });
   }
 };
+
 const editPropertyAd = (req, res) => {
   const { id } = req.params;
-  const { price, title } = req.body;
-  const data = {
-    title,
-    price,
-  };
-  const result = models.Property.update(id, data);
-  res.status(201).json({
-    status: 'success',
-    data: result,
-  });
-};
 
-const editPropertyAdImage = (req, res) => {
-  const { id } = req.params;
-  const { imageUrl } = req;
-  const data = {
-    imageUrl,
-  };
-  const result = models.Property.update(id, data);
-  res.status(201).json({
+  const obj = Object.assign({}, req.body);
+
+  Object.keys(obj).forEach((key) => {
+    if (obj[key]) {
+      obj[key] = obj[key].trim();
+    }
+  });
+
+  Object.keys(obj).forEach((key) => {
+    if (!obj[key]) {
+      delete obj[key];
+    }
+  });
+
+  const result = models.Property.update(id, obj);
+  res.status(200).json({
     status: 'success',
     data: result,
   });
@@ -147,6 +135,5 @@ export {
   fetchMyads,
   findAdsOfSpecificType,
   editPropertyAd,
-  editPropertyAdImage,
   markPropertySold,
 };

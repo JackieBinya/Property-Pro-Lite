@@ -265,7 +265,7 @@ describe('properties', function () {
         .end(function (err, res) {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.msg).to.equal('Please provide a price of your property.');
+          expect(res.body.msg).to.equal('Please provide a valid price of your property.');
           done(err);
         });
     });
@@ -292,14 +292,21 @@ describe('properties', function () {
     });
   });
 
-  context('PATCH /:id/title', function () {
+  context('PATCH /:id', function () {
     beforeEach(function (done) {
       models.Property.remove();
       done();
     });
     it('should update an existing ads title given id', function (done) {
+      const newUser = models.User.create({
+        firstName: 'foo',
+        lastName: 'bar',
+        email: 'foo@bar.com',
+        password: 'abcdef',
+      });
+
       const property = models.Property.create({
-        imageUrl: 'my image 00',
+        imageUrl: 'my image 05',
         address: '4 De Waat Terraces, Goodwood',
         state: 'Goodwood',
         city: 'Bulawayo',
@@ -307,94 +314,24 @@ describe('properties', function () {
         description: 'Cosy bedsitter, suitable for singles',
         price: '$120',
         type: '1 bedroom',
-        owner: '123',
+        owner: `${newUser.id}`,
       });
+
+      const myToken = generateToken(newUser.id);
 
       chai
         .request(app)
-        .patch(`/api/v1/property/${property.id}/title`)
-        .set('x-auth-token', token)
+        .patch(`/api/v1/property/${property.id}`)
+        .set('x-auth-token', myToken)
         .send({
           title: '1 bed in Goodwood, TO RENT!',
         })
         .end(function (err, res) {
-          expect(res).to.have.status(201);
+          expect(res).to.have.status(200);
           expect(res.body.data).to.be.a('object');
           expect(res.body.data).to.have.key('imageUrl', 'address', 'state', 'city', 'title', 'description', 'price', 'type', 'id', 'status', 'owner', 'createdOn');
           expect(res.body.data.id).to.be.equal(`${property.id}`);
           expect(res.body.data.title).to.equal('1 bed in Goodwood, TO RENT!');
-          done(err);
-        });
-    });
-  });
-
-  context('PATCH /:id/price', function () {
-    beforeEach(function (done) {
-      models.Property.remove();
-      done();
-    });
-    it('should update an existing ads price given id', function (done) {
-      const property = models.Property.create({
-        imageUrl: 'my image 01',
-        address: '4 De Waat Terraces, Goodwood',
-        state: 'Goodwood',
-        city: 'Bulawayo',
-        title: 'One bedroom  in a quiet surburb',
-        description: 'Cosy bedsitter, suitable for singles',
-        price: '$120',
-        type: '1 bedroom',
-        owner: '123',
-      });
-
-      chai
-        .request(app)
-        .patch(`/api/v1/property/${property.id}/price`)
-        .set('x-auth-token', token)
-        .send({
-          price: '450',
-        })
-        .end(function (err, res) {
-          expect(res).to.have.status(201);
-          expect(res.body.data).to.be.a('object');
-          expect(res.body.data).to.have.key('imageUrl', 'address', 'state', 'city', 'title', 'description', 'price', 'type', 'id', 'status', 'owner', 'createdOn');
-          expect(res.body.data.id).to.be.equal(`${property.id}`);
-          expect(res.body.data.price).to.equal('450');
-          done(err);
-        });
-    });
-  });
-
-  context('PATCH /:id/image', function () {
-    beforeEach(function (done) {
-      models.Property.remove();
-      done();
-    });
-    it('should update an existing ads image given id', function (done) {
-      const property = models.Property.create({
-        imageUrl: 'my image 03',
-        address: '4 De Waat Terraces, Goodwood',
-        state: 'Goodwood',
-        city: 'Bulawayo',
-        title: 'One bedroom  in a quiet surburb',
-        description: 'Cosy bedsitter, suitable for singles',
-        price: '$120',
-        type: '1 bedroom',
-        owner: '123',
-      });
-
-      chai
-        .request(app)
-        .patch(`/api/v1/property/${property.id}/image`)
-        .set('x-auth-token', token)
-        .type('form')
-        .attach('image', 'server/src/v1/test-assets/QuickFish.jpg')
-        .end(function (err, res) {
-          expect(res).to.have.status(201);
-          expect(res.body.status).to.equal('success');
-          expect(res.body.data).to.be.a('object');
-          expect(res.body.data).to.have.key('imageUrl', 'address', 'state', 'city', 'title', 'description', 'price', 'type', 'id', 'status', 'owner', 'createdOn');
-          expect(res.body.data.id).to.be.equal(`${property.id}`);
-          expect(res.body.data.imageUrl).to.not.equal('my image 03');
           done(err);
         });
     });
@@ -542,9 +479,16 @@ describe('properties', function () {
       models.Property.remove();
       done();
     });
-    it('should delete a property ad given its id', function (done) {
-      const property = models.Property.create({
-        imageUrl: 'server/src/v1/test-assets/GuitarStudioBanner.jpg',
+    it('should get all ads posted by a particular user given their id', function (done) {
+      const newUser = models.User.create({
+        firstName: 'foo',
+        lastName: 'bar',
+        email: 'foo@bar.com',
+        password: 'abcdef',
+      });
+
+      const newPropertyAd = models.Property.create({
+        imageUrl: 'my image 05',
         address: '4 De Waat Terraces, Goodwood',
         state: 'Goodwood',
         city: 'Bulawayo',
@@ -552,12 +496,15 @@ describe('properties', function () {
         description: 'Cosy bedsitter, suitable for singles',
         price: '$120',
         type: '1 bedroom',
+        owner: `${newUser.id}`,
       });
+
+      const newToken = generateToken(newUser.id);
 
       chai
         .request(app)
-        .delete(`/api/v1/property/${property.id}`)
-        .set('x-auth-token', token)
+        .delete(`/api/v1/property/${newPropertyAd.id}`)
+        .set('x-auth-token', newToken)
         .end(function (err, res) {
           expect(res).to.have.status(200);
           expect(res.body.msg).to.be.equal('Property ad is sucessfully deleted');
