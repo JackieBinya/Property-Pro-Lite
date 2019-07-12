@@ -50,4 +50,37 @@ const verifyAuthUser = (req, res, next) => {
   });
 };
 
-export { verifyNewUser, verifyExistingUser, verifyAuthUser };
+const verifyExistingProperty = (req, res, next) => {
+  const { id } = req.params;
+  const result = models.Property.findOne(id);
+  if (!result) {
+    return res.status(400).json({
+      status: 'error',
+      msg: 'Property does not exist!',
+    });
+  }
+  next();
+};
+
+const verifyPropertyBelongsToUser = (req, res, next) => {
+  const id = req.decoded.payload;
+  const { id: propertyId } = req.params;
+  const result = models.Property.findOne(propertyId);
+  console.log(`owner: ${result.owner}`);
+  console.log(`id from token ${id}`);
+  if (result.owner !== id ) {
+    return res.status(400).json({
+      status: 'error',
+      msg: 'Access denied! ',
+    });
+  }
+  next();
+};
+
+export {
+  verifyNewUser,
+  verifyExistingUser,
+  verifyAuthUser,
+  verifyExistingProperty,
+  verifyPropertyBelongsToUser,
+};

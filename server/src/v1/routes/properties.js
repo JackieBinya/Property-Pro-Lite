@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { cloudinaryConfig } from '../middlewares/cloudinary';
-import { multerUploads } from '../middlewares/multer';
-import uploadImage from '../middlewares/uploadImage';
+import { multerUpload, imageFormatValidator } from '../middlewares/multer';
+import {uploadImage, editImage } from '../middlewares/uploadImage';
 import {
   createPropertyAd,
   fetchAllProperties,
@@ -10,15 +10,13 @@ import {
   fetchMyads,
   findAdsOfSpecificType,
   markPropertySold,
-  editPropertyAdImage,
   editPropertyAd,
 } from '../controllers/property';
 import {
   postPropertyAdValiadator,
-  editPropertyAdPriceValidator,
-  editPropertyAdTitleValidator,
+  editAdValidator,
 } from '../middlewares/inputValidators';
-import { verifyAuthUser } from '../middlewares/verify';
+import { verifyAuthUser, verifyExistingProperty, verifyPropertyBelongsToUser } from '../middlewares/verify';
 
 const router = Router();
 
@@ -29,13 +27,10 @@ router.get('/type', findAdsOfSpecificType);
 // Auth user all routes for authenticated user/agents
 router.use(verifyAuthUser);
 
-router.post('/', cloudinaryConfig, multerUploads, uploadImage, postPropertyAdValiadator, createPropertyAd);
+router.post('/', cloudinaryConfig, multerUpload, imageFormatValidator, uploadImage, postPropertyAdValiadator, createPropertyAd);
 router.get('/my-ads', fetchMyads);
-router.delete('/:id', deletePropertyAd);
-router.patch('/:id/sold', markPropertySold);
-router.patch('/:id/image', cloudinaryConfig, multerUploads, uploadImage, editPropertyAdImage);
-router.patch('/:id/price', editPropertyAdPriceValidator, editPropertyAd);
-router.patch('/:id/title', editPropertyAdTitleValidator, editPropertyAd);
-
+router.delete('/:id', verifyExistingProperty, verifyPropertyBelongsToUser, deletePropertyAd);
+router.patch('/:id/sold', verifyExistingProperty, verifyPropertyBelongsToUser, markPropertySold);
+router.patch('/:id', verifyExistingProperty, verifyPropertyBelongsToUser, editAdValidator, editPropertyAd );
 
 export default router;

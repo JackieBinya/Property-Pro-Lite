@@ -3,20 +3,20 @@ import moment from 'moment';
 
 class Property {
   constructor() {
-    this.Properties = [];
+    this.properties = [];
   }
 
   //  Fetch all properties
   findAll() {
-    return this.Properties;
+    return this.properties;
   }
 
   findAllMyAds(id) {
-    return this.Properties.filter(property => property.owner === id);
+    return this.properties.filter(prop => prop.owner === id);
   }
 
   findAdsOfSpecificType(type) {
-    return this.Properties.filter(property => property.type === type);
+    return this.properties.filter(property => property.type === type);
   }
 
   // Create and save a property
@@ -38,54 +38,42 @@ class Property {
       createdOn: moment(),
     };
 
-    this.Properties.push(newProperty);
+    this.properties.push(newProperty);
 
     return newProperty;
   }
 
   // Get a property by id
   findOne(id) {
-    return this.Properties.find(user => user.id === id);
+    return this.properties.find(user => user.id === id);
   }
 
   // Delete a property
   delete(id) {
     // const property = this.findOne(id);
-    const newProperties = this.Properties.filter(property => property.id !== id);
-    this.Properties = [...newProperties];
+    const newProperties = this.properties.filter(property => property.id !== id);
+    this.properties = [...newProperties];
     return true;
   }
 
   // Update a property
   update(id, data) {
     const property = this.findOne(id);
-    const index = this.Properties.indexOf(property);
-
-    if (data.price) {
-      this.Properties[index].price = data.price;
-    }
-
-    if (data.imageUrl) {
-      this.Properties[index].imageUrl = data.imageUrl;
-    }
-
-    if (data.title) {
-      this.Properties[index].title = data.title;
-    }
-
-    return this.Properties[index];
+    const index = this.properties.indexOf(property);
+    Object.assign(this.properties[index], data);
+    return this.properties[index];
   }
 
   markPropertySold(id) {
     const property = this.findOne(id);
-    const index = this.Properties.indexOf(property);
-    this.Properties[index].status = 'sold';
+    const index = this.properties.indexOf(property);
+    this.properties[index].status = 'sold';
 
-    return this.Properties[index];
+    return this.properties[index];
   }
 
   remove() {
-    this.Properties = [];
+    this.properties = [];
   }
 }
 

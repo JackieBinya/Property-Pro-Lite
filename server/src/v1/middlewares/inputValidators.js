@@ -1,4 +1,6 @@
 const emailRE = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
+const priceRE = /^(([$])?((([0-9]{1,3},)+[0-9]{3})|[0-9]+)(\.[0-9]{2})?)$/;
+const acceptedExtensions = ['jpg', 'png'];
 
 const signUpValidator = (req, res, next) => {
   const {
@@ -6,28 +8,28 @@ const signUpValidator = (req, res, next) => {
   } = req.body;
 
   // Check that all input fields have been filled in
-  if (!firstName) {
+  if (!firstName || firstName.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please enter your first name.',
     });
   }
 
-  if (!lastName) {
+  if (!lastName || lastName.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please enter your last name.',
     });
   }
 
-  if (!email) {
+  if (!email || email.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please enter your email.',
     });
   }
 
-  if (!password) {
+  if (!password || password.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please enter your password.',
@@ -53,14 +55,14 @@ const signUpValidator = (req, res, next) => {
 const loginValidator = (req, res, next) => {
   const { email, password } = req.body;
 
-  if (!email) {
+  if (!email || email.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please enter your email.',
     });
   }
 
-  if (!password) {
+  if (!password || password.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please enter your password.',
@@ -88,49 +90,51 @@ const postPropertyAdValiadator = (req, res, next) => {
     title, address, state, city, type, price, description,
   } = req.body;
 
-  if (!title) {
+
+  if (!title || title.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please provide a title for your property ad.',
     });
   }
 
-  if (!address) {
+  if (!address || address.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please provide the address of your property.',
     });
   }
 
-  if (!state) {
+  if (!state || state.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please provide the state in which your property is located.',
     });
   }
 
-  if (!city) {
+  if (!city || city.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please provide the city where your property is located.',
     });
   }
 
-  if (!description) {
+  if (!description || description.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please provide a description of your property.',
     });
   }
 
-  if (!price) {
+
+  if (!priceRE.test(price)) {
     return res.status(400).json({
       status: 'error',
-      msg: 'Please provide a price of your property.',
+      msg: 'Please provide a valid price of your property.',
     });
   }
 
-  if (!type) {
+  if (!type || type.trim() === '') {
     return res.status(400).json({
       status: 'error',
       msg: 'Please select a type that matches your property.',
@@ -153,24 +157,35 @@ const postPropertyAdValiadator = (req, res, next) => {
   next();
 };
 
-const editPropertyAdPriceValidator = (req, res, next) => {
-  const { price } = req.body;
-  if (!price) {
-    return res.status(400).json({
-      status: 'error',
-      msg: 'Please enter the price of your property.',
-    });
-  }
-  next();
-};
+const editAdValidator = (req, res, next) => {
+  const obj = Object.assign({}, req.body);
 
-const editPropertyAdTitleValidator = (req, res, next) => {
-  const { title } = req.body;
-  if (!title) {
-    return res.status(400).json({
-      status: 'error',
-      msg: 'Please enter a title of your property ad.',
-    });
+
+  if (obj.title) {
+    if (obj.title.trim() === '' || obj.title.length > 40) {
+      return res.status(400).json({
+        status: 'error',
+        msg: 'Please enter a valid title and ensure its no more than 45 characters long!',
+      });
+    }
+  }
+
+  if (obj.description) {
+    if (obj.description.trim() === '' || obj.description.length > 40) {
+      return res.status(400).json({
+        status: 'error',
+        msg: 'Please enter a valid description and ensure its no more than 45 characters long!',
+      });
+    }
+  }
+
+  if (obj.price) {
+    if (!priceRE.test(obj.price)) {
+      return res.status(400).json({
+        status: 'error',
+        msg: 'Please provide a valid price of your property.',
+      });
+    }
   }
   next();
 };
@@ -179,6 +194,5 @@ export {
   signUpValidator,
   loginValidator,
   postPropertyAdValiadator,
-  editPropertyAdPriceValidator,
-  editPropertyAdTitleValidator,
+  editAdValidator,
 };
