@@ -342,14 +342,15 @@ describe('properties', function () {
       models.Property.remove();
       done();
     });
-    it('should not get property ads if they havent been posted yet', function (done) {
+    it('should get all property ads ', function (done) {
       chai
         .request(app)
         .get('/api/v1/property')
         .end(function (err, res) {
-          expect(res).to.have.status(404);
-          expect(res.body.status).to.equal('error');
-          expect(res.body.msg).to.be.equal('No properties found');
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.equal('success');
+          expect(res.body.data).to.be.a('array');
+          expect(res.body.data.length).to.equal(0);
           done(err);
         });
     });
