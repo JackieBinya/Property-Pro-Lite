@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --require @babel/register './server/src/**/*.test.js' --exit",
+    "coverage":"nyc mocha --require @babel/register './server/src/**/*.test.js' --exit",
     "server": "node app.js",
     "dev:start": "nodemon --exec babel-node server/src/v1/app.js",
     "start": "babel-node server/src/v1/app.js"
