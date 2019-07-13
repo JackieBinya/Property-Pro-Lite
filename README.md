@@ -28,11 +28,11 @@ Property Pro Lite is a platform where people can create and/or search properties
 ## Installation
 1. Make sure you have Node.js and npm installed
 2. Clone this repo
-''[git@github.com:JackieBinya/Property-Pro-Lite.git]''
+`[git@github.com:JackieBinya/Property-Pro-Lite.git]`
 3. Install dependecies 
-''npm install"
+`npm install`
 4. Start server
-''npm run dev:start''
+`npm run dev:start`
 
 ## Supporting Packages
 Linter
@@ -50,7 +50,7 @@ Compiler
  1.  Clone this repo
 `[git@github.com:JackieBinya/Property-Pro-Lite.git]`
 2. Install dependecies 
-''npm install"
+`npm install`
 3. Run Test
 `npm test`
 4. Run Coverage Report
