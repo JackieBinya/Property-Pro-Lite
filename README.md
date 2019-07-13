@@ -31,7 +31,8 @@ Property Pro Lite is a platform where people can create and/or search properties
 `git@github.com:JackieBinya/Property-Pro-Lite.git`
 3. Install dependecies 
 `npm install`
-4. Start server
+4.Create .env file, copy constants in .env.sample. Then add your own details.
+5. Start server
 `npm run dev:start`
 
 ## Supporting Packages
