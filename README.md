@@ -3,9 +3,9 @@ Property Pro Lite is a platform where people can create and/or search properties
 
 [![Build Status](https://travis-ci.org/JackieBinya/Property-Pro-Lite.svg?branch=develop)](https://travis-ci.org/JackieBinya/Property-Pro-Lite)[![Coverage Status](https://coveralls.io/repos/github/JackieBinya/Property-Pro-Lite/badge.svg?branch=develop)](https://coveralls.io/github/JackieBinya/Property-Pro-Lite?branch=develop)[![Maintainability](https://api.codeclimate.com/v1/badges/f98f3f6f68ff073444ab/maintainability)](https://codeclimate.com/github/JackieBinya/Property-Pro-Lite/maintainability)
 
-### UI templates: [https://jackiebinya.github.io/Property-Pro-Lite/]
-### API Link: [https://property-pro-lite-jb.herokuapp.com/]
-### Pivotal Tracker Link: [https://www.pivotaltracker.com/n/projects/2356449]
+### UI templates: https://jackiebinya.github.io/Property-Pro-Lite/
+### API Link: https://property-pro-lite-jb.herokuapp.com/
+### Pivotal Tracker Link: https://www.pivotaltracker.com/n/projects/2356449
 
 ## Built With
 - [Node.js](https://nodejs.org/en/docs/)
@@ -64,7 +64,7 @@ Continous Intergration
 
 ## API Endpoints
 | DESCRIPTION                      | HTTP METHOD     | ROUTES                   |
-| --------------------------------- |:--------------:| ------------------------:|
+| --------------------------------- |:--------------:| :------------------------:|
 | Sign Up                       | POST |/api/v1/auth/signup|
 | Sign In    | POST      |   /api/v1/auth/signin |
 | Post property ad | POST    |    /api/v1/property|
