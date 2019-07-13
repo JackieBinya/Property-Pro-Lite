@@ -25,14 +25,22 @@
       "description": "Operations about property"
     }
   ],
-  {
+  
     "schemes": [
     "https",
     "http"
   ],
   
+  "securityDefinitions": {
+  "JWT": {
+    "type": "apiKey",
+    "in": "header",
+    "name": "x-auth-token"
+    }
+  },
+  
   "paths": {
-     "/user/auth/signup": {
+     "/auth/signup": {
     "post": {
       "summary": "Creates a new user.",
       "consumes": [
@@ -83,8 +91,7 @@
     }
   },
   
-  
-   "/user/auth/signin": {
+   "/auth/signin": {
     "post": {
       "summary": "Authenticates a registered user.",
       "consumes": [
@@ -128,9 +135,341 @@
   
    "/property": {
     "post": {
+       "security": [
+    {
+      "JWT": []
+    }
+  ],
       "tags": [
         "property"
       ],
       "summary": "A registered user post a property ad",
       "description": "",
+      "operationId": "postAd",
+      "produces": [
+        "application/json"
+      ],
+      "consumes": [
+        "multipart/form-data"
+      ],
+      "parameters": [
+        {
+          "name": "image",
+          "in": "formData",
+          "description": "Image of the property being advertised",
+          "required": true,
+          "type": "file"
+        },
+        
+        {
+          "name": "title",
+          "in": "formData",
+          "description": "Title of the property ad",
+          "required": true,
+          "type": "string"
+        },
+        
+        {
+          "name": "description",
+          "in": "formData",
+          "description": "Description of the property",
+          "required": true,
+          "type": "string"
+        },
+        
+        {
+          "name": "address",
+          "in": "formData",
+          "description": "Address of the property",
+          "required": true,
+          "type": "string"
+        },
+        
+        {
+          "name": "state",
+          "in": "formData",
+          "description": "State in which property is found.",
+          "required": true,
+          "type": "string"
+        },
+        
+        {
+          "name": "city",
+          "in": "formData",
+          "description": "City in which the property is found",
+          "required": true,
+          "type": "string"
+        },
+        
+         {
+          "name": "type",
+          "in": "formData",
+          "description": "Type of the property being advertised",
+          "required": true,
+          "type": "string"
+        },
+        
+        {
+          "name": "price",
+          "in": "formData",
+          "description": "Price of the property being dvertised",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description":"Property ad created successfully"
+        },
+        "400": {
+          "description": "Empty input fields."
+        },
+         "401": {
+          "description": "Access denied no token"
+        },
+      }
+    }
+  },
   
+   "/property/<:property-id>": {
+    "delete": {
+       "security": [
+    {
+      "JWT": []
+    }
+  ],
+      "tags": [
+        "property"
+      ],
+      "summary": "A registered user deletes a property ad",
+      "description": "",
+      "operationId": "deleteAd",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "description": "ID of pet that needs to be fetched",
+          "required": true,
+          "type": "integer",
+        },
+        ],
+      "responses": {
+        "200": {
+          "description":"Property ad deleted successfully"
+        },
+        "404": {
+          "description":"Property ad not found"
+        },
+        
+      }
+    }
+  },
+  
+  "/property/": {
+    "get": {
+      "tags": [
+        "property"
+      ],
+      "summary": "A user gets a property ads",
+      "operationId": "getAds",
+      "produces": [
+        "application/json"
+      ],
+      "responses": {
+        "200": {
+          "description":"Operation successfull"
+        },
+      }
+    }
+  },
+  
+   "/property/<:property-id>/specific-property":{
+    "get": {
+      "tags": [
+        "property"
+      ],
+     
+      "summary": "A user gets a property ads",
+      "operationId": "getSpecificId",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "description": "ID of pet that needs to be fetched",
+          "required": true,
+          "type": "integer",
+        },
+        ],
+      "responses": {
+        "200": {
+          "description":"Operation successfull",
+        },
+        "404": {
+          "description":"Not found"
+        },
+      }
+    }
+  },
+  
+  "/property/type":{
+    "get": {
+      "tags": [
+        "property"
+      ],
+     
+      "summary": "A user gets a property ads",
+      "operationId": "getAdsByType",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "propertyType",
+          "in": "query",
+          "description": "Type of property that needs to be fetched",
+          "required": true,
+          "type": "integer",
+        },
+        ],
+      "responses": {
+        "200": {
+          "description":"Operation successfull",
+        },
+        "404": {
+          "description":"Not found"
+        },
+      }
+    }
+  },
+  
+  
+   "/property/<:property-id>/":{
+    "patch": {
+       "security": [
+    {
+      "JWT": []
+    }
+  ],
+      "tags": [
+        "property"
+      ],
+     
+      "summary": "A user gets a property ads",
+      "operationId": "editSpecificAd",
+      "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "description": "ID of pet that needs to be fetched",
+          "required": true,
+          "type": "integer",
+        },
+        {
+          "in": "body",
+          "name": "property",
+          "schema": {
+            "type": "object",
+            "required": [
+              "title",
+              "description",
+              "address",
+              "city",
+              "type",
+              "price",
+              "state"
+            ],
+            "properties": {
+            "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              
+              "address": {
+                "type": "string",
+              },
+              
+               "city": {
+                "type": "string",
+              },
+              "type": {
+                "type": "string",
+              },
+              "price": {
+                "type": "string",
+              },
+               "state": {
+                "type": "string",
+              },
+            }
+          }
+        }
+
+        ],
+      "responses": {
+        "200": {
+          "description":"Operation successfull",
+        },
+        "400": {
+          "description":"Invalid input"
+        },
+        "404": {
+          "description":"Not found"
+        },
+      }
+    }
+  },
+  
+   "/property/<:property-id>/sold":{
+    "patch": {
+       "security": [
+    {
+      "JWT": []
+    }
+  ],
+      "tags": [
+        "property"
+      ],
+     
+      "summary": "A user marks ad sold",
+      "operationId": "markAdSold",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "propertyId",
+          "in": "path",
+          "description": "ID of pet that needs to be fetched",
+          "required": true,
+          "type": "integer",
+        },
+       
+        ],
+      "responses": {
+        "200": {
+          "description":"Operation successfull",
+        },
+        "404": {
+          "description":"Not found"
+        },
+      }
+    }
+  },
+  
+  
+  } 
+}
