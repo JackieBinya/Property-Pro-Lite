@@ -8,7 +8,7 @@
     "test:test": "nyc mocha --require @babel/register './server/src/**/*.test.js' --exit",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "server": "node app.js",
-    "dev:start": "nodemon --exec babel-node server/src/v1/app.js",
+    "dev:start": "nodemon --exec babel-node server/src/v2/app.js",
     "start": "babel-node server/src/v1/app.js"
   },
   "repository": {
