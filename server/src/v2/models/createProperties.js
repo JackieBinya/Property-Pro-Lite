@@ -1,0 +1,29 @@
+const pool = require('./configDB');
+
+const queryText = `CREATE TABLE IF NOT EXISTS
+properties(
+  id SERIAL NOT NULL,
+  owner BIGINT UNIQUE,
+  status VARCHAR(20) DEFAULT 'available',
+  price VARCHAR(15) NOT NULL,
+  state VARCHAR(80) NOT NULL,
+  city VARCHAR(80) NOT NULL,
+  address VARCHAR(50) NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  description VARCHAR(200) NOT NULl ,
+  title VARCHAR(50) NOT NULL ,
+  image_url VARCHAR(128) NOT NULL ,
+  created_on  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE
+  )`;
+
+pool.query(queryText)
+  .then((res) => {
+    console.log(res);
+    pool.end();
+  })
+  .catch((err) => {
+    console.log(err);
+    pool.end();
+  });
