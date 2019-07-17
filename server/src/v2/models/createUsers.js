@@ -11,6 +11,7 @@ users(
   PRIMARY KEY (id)
 )`;
 
+
 pool.query(queryText)
   .then((res) => {
     console.log(res);
@@ -20,5 +21,3 @@ pool.query(queryText)
     console.log(err);
     pool.end();
   });
-
-
