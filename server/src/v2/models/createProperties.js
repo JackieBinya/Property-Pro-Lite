@@ -3,7 +3,7 @@ const pool = require('./configDB');
 const queryText = `CREATE TABLE IF NOT EXISTS
 properties(
   id SERIAL NOT NULL,
-  owner BIGINT UNIQUE,
+  owner BIGINT,
   status VARCHAR(20) DEFAULT 'available',
   price VARCHAR(15) NOT NULL,
   state VARCHAR(80) NOT NULL,

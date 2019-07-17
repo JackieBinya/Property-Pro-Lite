@@ -7,8 +7,8 @@ const verifyNewUser = async (req, res, next) => {
     const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (rows[0]) {
       return res.status(400).json({
-        status: 'error',
-        msg: 'Your email is already registered in the app, you are only allowed to have one account.',
+        status: '400',
+        error: 'Your email is already registered in the app, you are only allowed to have one account.',
       });
     }
   } catch (err) {
@@ -19,11 +19,11 @@ const verifyNewUser = async (req, res, next) => {
 
 const verifyExistingUser = async (req, res, next) => {
   const { email } = req.body;
-  const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-  if (result.rows.length === 0) {
+  const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+  if (rows.length === 0) {
     return res.status(400).json({
-      status: 'error',
-      msg: 'Please sign up to continue, if already signed up email you provided is incorrect. Please try again.',
+      status: '400',
+      error: 'Please sign up to continue, if already signed up email you provided is incorrect. Please try again.',
     });
   }
   next();
@@ -35,16 +35,16 @@ const verifyAuthUser = (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
-      status: 'error',
-      msg: 'No token access denied',
+      status: '400',
+      error: 'No token access denied',
     });
   }
 
   jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
     if (err) {
       return res.status(400).json({
-        status: 'error',
-        msg: 'No authorisation, token invalid!',
+        status: '400',
+        error: 'No authorisation, token invalid!',
       });
     }
     req.decoded = decoded;
@@ -57,8 +57,8 @@ const verifyExistingProperty = (req, res, next) => {
   const result = models.Property.findOne(propertyId);
   if (!result) {
     return res.status(400).json({
-      status: 'error',
-      msg: 'Property does not exist!',
+      status: '400',
+      error: 'Property does not exist!',
     });
   }
   next();
@@ -70,8 +70,8 @@ const verifyPropertyBelongsToUser = (req, res, next) => {
   const result = models.Property.findOne(propertyId);
   if (result.owner !== id ) {
     return res.status(400).json({
-      status: 'error',
-      msg: 'Access denied! ',
+      status: '400',
+      error: 'Access denied! ',
     });
   }
   next();

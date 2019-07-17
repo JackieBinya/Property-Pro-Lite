@@ -1,6 +1,6 @@
-import models from '../models';
+import pool from '../../v2/models/configDB';
 
-const createPropertyAd = (req, res) => {
+const createPropertyAd = async (req, res) => {
   const { imageUrl } = req;
   const owner = req.decoded.payload;
 
@@ -8,22 +8,19 @@ const createPropertyAd = (req, res) => {
     title, address, state, city, type, price, description,
   } = req.body;
 
-  const result = models.Property.create({
-    imageUrl,
-    title: title.trim(),
-    address: address.trim(),
-    state: state.trim(),
-    city: city.trim(),
-    type: type.trim(),
-    price: price.trim(),
-    description: description.trim(),
-    owner,
-  });
+  const text = 'INSERT INTO properties(title, address, state, city, type, price, description, owner, image_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+  const values = [title.trim(), address.trim(), state.trim(), city.trim(), type.trim(), price.trim(), description.trim(), owner, imageUrl];
 
-  res.status(201).json({
-    status: 'success',
-    data: result,
-  });
+  try {
+    const { rows } = await pool.query(text, values);
+    return res.status(201).json({
+      status: '200',
+      message: 'Sucessfully created a property ad',
+      data: rows[0],
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
 };
 
 const fetchAllProperties = (req, res) => {
