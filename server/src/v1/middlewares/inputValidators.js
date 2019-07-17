@@ -89,6 +89,8 @@ const postPropertyAdValiadator = (req, res, next) => {
     title, address, state, city, type, price, description,
   } = req.body;
 
+  console.log(req.body)
+
 
   if (!title || title.trim() === '') {
     return res.status(400).json({
