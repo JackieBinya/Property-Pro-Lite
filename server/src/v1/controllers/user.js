@@ -1,80 +1,74 @@
 import bcrypt from 'bcryptjs';
 import models from '../models';
 import generateToken from '../utils/authService';
+import pool from '../../v2/models/configDB';
 
-const createNewUser = (req, res) => {
+const createNewUser = async (req, res) => {
   const {
     firstName, lastName, email, password,
   } = req.body;
-
-  // Trim input
-  firstName.trim();
-  lastName.trim();
-  email.trim();
-  password.trim();
-
   // salt and hash
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(password, salt);
+  const text = 'INSERT INTO users(first_name, last_name, email, password) VALUES($1, $2, $3, $4) RETURNING *';
+  const values = [firstName.trim(), lastName.trim(), email.trim(), hash];
 
-  const user = models.User
-    .create({
-      firstName,
-      lastName,
-      email,
-      password: hash,
-    });
-
-  const token = generateToken(user.id);
-  res.status(201).json({
-    status: 'success',
-    data: {
-      token,
-      user: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        id: user.id,
+  try {
+    const { rows } = await pool.query(text, values);
+    
+    return res.status(201).json({
+      status: 'success',
+      data: {
+        token: generateToken(rows[0].id),
+        user: {
+          firstName: rows[0].first_name,
+          lastName: rows[0].last_name,
+          email: rows[0].email,
+          id: rows[0].id,
+        },
       },
-    },
-  });
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err });
+  }
 };
 
-const authUser = (req, res) => {
+
+const authUser = async(req, res) => {
   const { email, password } = req.body;
 
-  // Trim input
-  email.trim();
-  password.trim();
-  
-  const user = models.User.findByEmail(email);
+  try {
+    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
 
-  bcrypt.compare(password, user.password, (err, isMatch) => {
-    // res === true
-    if (err) throw err;
+    bcrypt.compare(password, rows[0].password, (err, isMatch) => {
+      // res === true
+      if (err) throw err;
 
-    if (isMatch) {
-      const token = generateToken(user.id);
-      return res.status(200).json({
-        status: 'success',
-        data: {
-          token,
-          user: {
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
+      if (isMatch) {
+        return res.status(200).json({
+          status: '200',
+          msg: 'Successfully logged in',
+          data: {
+            token: generateToken(rows[0].id),
+            user: {
+              firstName: rows[0].first_name,
+              lastName: rows[0].last_name,
+              email: rows[0].email,
+            },
           },
-        },
-      });
-    }
+        });
+      }
 
-    if (!isMatch) {
-      return res.status(400).json({
-        status: 'error',
-        msg: 'Authentification failed incorrect password!',
-      });
-    }
-  });
+      if (!isMatch) {
+        return res.status(400).json({
+          status: 'error',
+          msg: 'Authentification failed incorrect password!',
+        });
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
 };
 
 

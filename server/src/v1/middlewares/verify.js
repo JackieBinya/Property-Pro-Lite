@@ -1,24 +1,26 @@
 import jwt from 'jsonwebtoken';
-import models from '../models';
+import pool from '../../v2/models/configDB';
 
-const verifyNewUser = (req, res, next) => {
+const verifyNewUser = async (req, res, next) => {
   const { email } = req.body;
-
-  const result = models.User.findByEmail(email);
-  if (result) {
-    return res.status(400).json({
-      status: 'error',
-      msg: 'Your email is already registered in the app, you are only allowed to have one account.',
-    });
+  try {
+    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (rows[0]) {
+      return res.status(400).json({
+        status: 'error',
+        msg: 'Your email is already registered in the app, you are only allowed to have one account.',
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err });
   }
   next();
 };
 
-const verifyExistingUser = (req, res, next) => {
+const verifyExistingUser = async (req, res, next) => {
   const { email } = req.body;
-
-  const result = models.User.findByEmail(email);
-  if (!result) {
+  const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+  if (result.rows.length === 0) {
     return res.status(400).json({
       status: 'error',
       msg: 'Please sign up to continue, if already signed up email you provided is incorrect. Please try again.',
