@@ -21,24 +21,12 @@ class Property {
 
   // Create and save a property
   create({
-    status = 'available', price, state, city, address, type, imageUrl, description, title, owner,
+    price, state, city, address, type, imageUrl, description, title, owner,
   }) {
-    const newProperty = {
-      id: uuid.v4(),
-      status,
-      price,
-      state,
-      city,
-      address,
-      type,
-      description,
-      title,
-      imageUrl,
-      owner,
-      createdOn: moment(),
-    };
-
-    this.properties.push(newProperty);
+    
+    const text = 'INSERT INTO users(price, state, city, address, type,) VALUES($1, $2, $3, $4) RETURNING *';
+    const values = [firstName.trim(), lastName.trim(), email.trim(), hash];
+    
 
     return newProperty;
   }

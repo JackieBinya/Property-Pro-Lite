@@ -12,27 +12,18 @@ const imageFormatValidator = (req, res, next) => {
       const mime = fileType(req.file.buffer);
 
       // if can't be determined or format not accepted
-      if (!mime || !acceptedExtensions.includes(mime.ext)) { return next(new Error(`The uploaded file is not in  ${acceptedExtensions.join(',')} format!`)); }
+      if (!mime || !acceptedExtensions.includes(mime.ext)) {
+        return res.status(400).json({
+          status: (400),
+          error: `The uploaded file is not in  ${acceptedExtensions.join(',')} format!`,
+        });
+      }
     }
+    next();
   }
-  next();
 };
 
-const multerUpload = multer({
-  storage,
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5 MB upload limit
+const multerUpload = multer({ storage }).single('image');
 
-  },
-  fileFilter: (req, file, cb) => {
-    // if the file extension is in our accepted list
-    if (acceptedExtensions.some(ext => file.originalname.endsWith(`.${ext}`))) {
-      return cb(null, true);
-    }
-
-    // otherwise, return error
-    return cb(new Error(`Only ${acceptedExtensions.join(',')} files are allowed!`));
-  },
-}).single('image');
 
 export { multerUpload, imageFormatValidator };

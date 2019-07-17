@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import models from '../models';
 import generateToken from '../utils/authService';
 import pool from '../../v2/models/configDB';
 
@@ -15,16 +14,17 @@ const createNewUser = async (req, res) => {
 
   try {
     const { rows } = await pool.query(text, values);
-    
+
     return res.status(201).json({
-      status: 'success',
+      status: '200',
+      message: 'Sucessfully created an account',
       data: {
         token: generateToken(rows[0].id),
         user: {
           firstName: rows[0].first_name,
           lastName: rows[0].last_name,
           email: rows[0].email,
-          id: rows[0].id,
+          id: rows[0].id
         },
       },
     });
@@ -34,7 +34,7 @@ const createNewUser = async (req, res) => {
 };
 
 
-const authUser = async(req, res) => {
+const authUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -47,7 +47,7 @@ const authUser = async(req, res) => {
       if (isMatch) {
         return res.status(200).json({
           status: '200',
-          msg: 'Successfully logged in',
+          message: 'Successfully logged in',
           data: {
             token: generateToken(rows[0].id),
             user: {
