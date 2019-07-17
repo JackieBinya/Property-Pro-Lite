@@ -1,4 +1,6 @@
-import pool from '../../v2/models/configDB';
+import models from '../models';
+
+const { Property } = models;
 
 const createPropertyAd = async (req, res) => {
   const { imageUrl } = req;
@@ -8,15 +10,24 @@ const createPropertyAd = async (req, res) => {
     title, address, state, city, type, price, description,
   } = req.body;
 
-  const text = 'INSERT INTO properties(title, address, state, city, type, price, description, owner, image_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
-  const values = [title.trim(), address.trim(), state.trim(), city.trim(), type.trim(), price.trim(), description.trim(), owner, imageUrl];
 
   try {
-    const { rows } = await pool.query(text, values);
+    const createdProperty = await Property.create({
+      title: title.trim(),
+      address: address.trim(),
+      state: state.trim(),
+      city: city.trim(),
+      type: type.trim(),
+      price: price.trim(),
+      description: description.trim(),
+      owner,
+      imageUrl,
+    });
+
     return res.status(201).json({
-      status: '200',
+      status: '201',
       message: 'Sucessfully created a property ad',
-      data: rows[0],
+      data: createdProperty,
     });
   } catch (err) {
     return res.status(500).json({ error: err });
@@ -91,28 +102,21 @@ const fetchMyads = (req, res) => {
   }
 };
 
-const editPropertyAd = (req, res) => {
+const editPropertyAd = async (req, res) => {
   const { propertyId } = req.params;
-
-  const obj = Object.assign({}, req.body);
-
-  Object.keys(obj).forEach((key) => {
-    if (obj[key]) {
-      obj[key] = obj[key].trim();
-    }
-  });
-
-  Object.keys(obj).forEach((key) => {
-    if (!obj[key]) {
-      delete obj[key];
-    }
-  });
-
-  const result = models.Property.update(propertyId, obj);
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
+  const { price } = req.body;
+  try {
+    const result = await Property.update(propertyId, price);
+    res.status(200).json({
+      status: '200',
+      data: result[0],
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err.message,
+    });
+  }
 };
 
 const markPropertySold = (req, res) => {

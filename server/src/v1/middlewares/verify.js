@@ -1,26 +1,33 @@
 import jwt from 'jsonwebtoken';
-import pool from '../../v2/models/configDB';
+import models from '../models';
+
+
+const { User, Property } = models;
+
 
 const verifyNewUser = async (req, res, next) => {
   const { email } = req.body;
   try {
-    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-    if (rows[0]) {
+    const user = await User.findByEmail(email.trim());
+    if (user[0]) {
       return res.status(400).json({
         status: '400',
         error: 'Your email is already registered in the app, you are only allowed to have one account.',
       });
     }
   } catch (err) {
-    res.status(500).json({ error: err });
+    res.status(500).json({
+      status: '500',
+      error: err,
+    });
   }
   next();
 };
 
 const verifyExistingUser = async (req, res, next) => {
   const { email } = req.body;
-  const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-  if (rows.length === 0) {
+  const user = await User.findByEmail(email.trim());
+  if (user.length === 0) {
     return res.status(400).json({
       status: '400',
       error: 'Please sign up to continue, if already signed up email you provided is incorrect. Please try again.',
@@ -52,26 +59,40 @@ const verifyAuthUser = (req, res, next) => {
   });
 };
 
-const verifyExistingProperty = (req, res, next) => {
+const verifyExistingProperty = async (req, res, next) => {
   const { propertyId } = req.params;
-  const result = models.Property.findOne(propertyId);
-  if (!result) {
-    return res.status(400).json({
-      status: '400',
-      error: 'Property does not exist!',
+  try {
+    const { rows } = await Property.findOne(propertyId);
+    if (rows.length === 0) {
+      return res.status(400).json({
+        status: '400',
+        error: 'Property does not exist!',
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err.message,
     });
   }
   next();
 };
 
-const verifyPropertyBelongsToUser = (req, res, next) => {
+const verifyPropertyBelongsToUser = async (req, res, next) => {
   const id = req.decoded.payload;
   const { propertyId } = req.params;
-  const result = models.Property.findOne(propertyId);
-  if (result.owner !== id ) {
-    return res.status(400).json({
-      status: '400',
-      error: 'Access denied! ',
+  try {
+    const { rows } = await Property.findOne(propertyId);
+    if (rows[0].owner !== id) {
+      return res.status(400).json({
+        status: '400',
+        error: 'Access denied! ',
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err,
     });
   }
   next();

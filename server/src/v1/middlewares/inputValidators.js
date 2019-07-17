@@ -67,20 +67,6 @@ const loginValidator = (req, res, next) => {
       error: 'Please enter your password.',
     });
   }
-
-  if (password.length < 6) {
-    return res.status(400).json({
-      status: '400',
-      error: 'Password should be no less than 6 characters long.',
-    });
-  }
-
-  if (!emailRE.test(email)) {
-    return res.status(400).json({
-      status: '400',
-      error: 'Email invalid!',
-    });
-  }
   next();
 };
 
@@ -157,34 +143,12 @@ const postPropertyAdValiadator = (req, res, next) => {
 };
 
 const editAdValidator = (req, res, next) => {
-  const obj = Object.assign({}, req.body);
-
-
-  if (obj.title) {
-    if (obj.title.trim() === '' || obj.title.length > 40) {
-      return res.status(400).json({
-        status: '400',
-        error: 'Please enter a valid title and ensure its no more than 45 characters long!',
-      });
-    }
-  }
-
-  if (obj.description) {
-    if (obj.description.trim() === '' || obj.description.length > 40) {
-      return res.status(400).json({
-        status: '400',
-        error: 'Please enter a valid description and ensure its no more than 45 characters long!',
-      });
-    }
-  }
-
-  if (obj.price) {
-    if (!priceRE.test(obj.price)) {
-      return res.status(400).json({
-        status: '400',
-        error: 'Please provide a valid price of your property.',
-      });
-    }
+  const { price } = req.body;
+  if (!priceRE.test(price)) {
+    return res.status(400).json({
+      status: '400',
+      error: 'Please provide a valid price of your property.',
+    });
   }
   next();
 };

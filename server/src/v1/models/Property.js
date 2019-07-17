@@ -1,10 +1,23 @@
-import uuid from 'uuid';
-import moment from 'moment';
+import pool from '../../v2/models/configDB';
 
 class Property {
-  constructor() {
-    this.properties = [];
+  static async create({
+    imageUrl,
+    title,
+    address,
+    state,
+    city,
+    type,
+    price,
+    description,
+    owner,
+  }) {
+    const text = 'INSERT INTO properties(title, address, state, city, type, price, description, owner, image_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+    const values = [title, address, state, city, type, price, description, owner, imageUrl];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
+
 
   //  Fetch all properties
   findAll() {
@@ -20,20 +33,12 @@ class Property {
   }
 
   // Create and save a property
-  create({
-    price, state, city, address, type, imageUrl, description, title, owner,
-  }) {
-    
-    const text = 'INSERT INTO users(price, state, city, address, type,) VALUES($1, $2, $3, $4) RETURNING *';
-    const values = [firstName.trim(), lastName.trim(), email.trim(), hash];
-    
 
-    return newProperty;
-  }
 
   // Get a property by id
-  findOne(id) {
-    return this.properties.find(user => user.id === id);
+  static async findOne(id) {
+    const rows  = await pool.query('SELECT * FROM properties WHERE id=$1', [id]);
+    return rows;
   }
 
   // Delete a property
@@ -44,12 +49,13 @@ class Property {
     return true;
   }
 
-  // Update a property
-  update(id, data) {
-    const property = this.findOne(id);
-    const index = this.properties.indexOf(property);
-    Object.assign(this.properties[index], data);
-    return this.properties[index];
+  // Update a propertyn
+  static async update(id, price) {
+    const text = 'UPDATE properties SET price = $1 WHERE id = $2 RETURNING *';
+    const values = [price, id];
+    const { rows } = await pool.query(text, values )
+
+    return rows;
   }
 
   markPropertySold(id) {
@@ -65,4 +71,4 @@ class Property {
   }
 }
 
-export default new Property();
+export default Property;

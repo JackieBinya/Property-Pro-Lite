@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs';
 import generateToken from '../utils/authService';
-import pool from '../../v2/models/configDB';
+import models from '../models';
+
+const { User } = models;
+
 
 const createNewUser = async (req, res) => {
   const {
@@ -8,23 +11,26 @@ const createNewUser = async (req, res) => {
   } = req.body;
   // salt and hash
   const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(password, salt);
-  const text = 'INSERT INTO users(first_name, last_name, email, password) VALUES($1, $2, $3, $4) RETURNING *';
-  const values = [firstName.trim(), lastName.trim(), email.trim(), hash];
+  const hash = bcrypt.hashSync(password.trim(), salt);
+
 
   try {
-    const { rows } = await pool.query(text, values);
-
+    const newUser = await User.create({
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.trim(),
+      password: hash,
+    });
     return res.status(201).json({
       status: '200',
       message: 'Sucessfully created an account',
       data: {
-        token: generateToken(rows[0].id),
+        token: generateToken(newUser[0].id),
         user: {
-          firstName: rows[0].first_name,
-          lastName: rows[0].last_name,
-          email: rows[0].email,
-          id: rows[0].id
+          firstName: newUser[0].first_name,
+          lastName: newUser[0].last_name,
+          email: newUser[0].email,
+          id: newUser[0].id,
         },
       },
     });
@@ -38,9 +44,11 @@ const authUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    // const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
 
-    bcrypt.compare(password, rows[0].password, (err, isMatch) => {
+    const newUser = await User.findByEmail(email.trim());
+
+    bcrypt.compare(password, newUser[0].password, (err, isMatch) => {
       // res === true
       if (err) throw err;
 
@@ -49,11 +57,11 @@ const authUser = async (req, res) => {
           status: '200',
           message: 'Successfully logged in',
           data: {
-            token: generateToken(rows[0].id),
+            token: generateToken(newUser[0].id),
             user: {
-              firstName: rows[0].first_name,
-              lastName: rows[0].last_name,
-              email: rows[0].email,
+              firstName: newUser[0].first_name,
+              lastName: newUser[0].last_name,
+              email: newUser[0].email,
             },
           },
         });

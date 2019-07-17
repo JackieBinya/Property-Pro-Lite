@@ -1,30 +1,23 @@
-import uuid from 'uuid';
+import pool from '../../v2/models/configDB';
 
 class User {
-  constructor() {
-    this.users = [];
-  }
-
-  create({
+  static async create({
     firstName, lastName, email, password,
   }) {
-    const newUser = {
-      firstName,
-      lastName,
-      email,
-      password,
-      id: uuid.v4(),
-    };
-    this.users.push(newUser);
-    return newUser;
+    const text = 'INSERT INTO users(first_name, last_name, email, password) VALUES($1, $2, $3, $4) RETURNING *';
+    const values = [firstName, lastName, email, password];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
 
-  findByEmail(email) {
-    return this.users.find(user => user.email === email);
+  static async findByEmail(email) {
+    const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    return rows;
   }
 
   findById(id) {
     return this.users.find(user => user.id === id);
+    
   }
 
   remove() {
@@ -32,4 +25,4 @@ class User {
   }
 }
 
-export default new User();
+export default User;
