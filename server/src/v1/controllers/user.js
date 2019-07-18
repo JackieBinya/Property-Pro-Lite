@@ -22,7 +22,7 @@ const createNewUser = async (req, res) => {
       password: hash,
     });
     return res.status(201).json({
-      status: '200',
+      status: 200,
       message: 'Sucessfully created an account',
       data: {
         token: generateToken(newUser[0].id),
@@ -35,7 +35,10 @@ const createNewUser = async (req, res) => {
       },
     });
   } catch (err) {
-    return res.status(500).json({ error: err });
+    return res.status(500).json({
+      status: 500,
+      error: err,
+    });
   }
 };
 
@@ -54,7 +57,7 @@ const authUser = async (req, res) => {
 
       if (isMatch) {
         return res.status(200).json({
-          status: '200',
+          status: 200,
           message: 'Successfully logged in',
           data: {
             token: generateToken(newUser[0].id),
@@ -75,7 +78,10 @@ const authUser = async (req, res) => {
       }
     });
   } catch (err) {
-    res.status(500).json({ error: err });
+    res.status(500).json({ 
+      status: 500,
+      error: err,
+    });
   }
 };
 

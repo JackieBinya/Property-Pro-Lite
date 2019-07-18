@@ -1,4 +1,4 @@
-import pool from '../../v2/models/configDB';
+import pool from '../../db/models/configDB';
 
 class User {
   static async create({
@@ -17,8 +17,7 @@ class User {
 
   findById(id) {
     return this.users.find(user => user.id === id);
-    
-  }
+}
 
   remove() {
     this.users = [];

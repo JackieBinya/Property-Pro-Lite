@@ -10,4 +10,3 @@ pool.query(queryText)
     console.log(err);
     pool.end();
   });
-

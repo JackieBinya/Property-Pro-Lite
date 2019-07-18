@@ -1,4 +1,4 @@
-import pool from '../../v2/models/configDB';
+import pool from '../../db/models/configDB';
 
 class Property {
   static async create({
@@ -18,10 +18,17 @@ class Property {
     return rows;
   }
 
-
   //  Fetch all properties
-  findAll() {
-    return this.properties;
+  static async findAll() {
+    const text = `SELECT props.id, status, type, state, city, props.address, price, created_on,
+    image_url,u.email as email
+    FROM properties props
+    LEFT JOIN users u
+    ON props.owner = u.id`
+
+    const { rows } = await pool.query(text);
+
+    return rows;
   }
 
   findAllMyAds(id) {
@@ -29,7 +36,8 @@ class Property {
   }
 
   static async findAdsOfSpecificType(type) {
-
+    const { rows } = await pool.query('SELECT * FROM properties WHERE type=$1', [type]);
+    return rows;
   }
 
   // Create and save a property
@@ -62,7 +70,6 @@ class Property {
     const text = 'UPDATE properties SET status = $1 WHERE id = $2 RETURNING *';
     const values = ['sold', id];
     const { rows } = await pool.query(text, values);
-
     return rows;
   }
 

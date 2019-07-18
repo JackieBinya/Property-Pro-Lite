@@ -14,7 +14,7 @@ const imageFormatValidator = (req, res, next) => {
       // if can't be determined or format not accepted
       if (!mime || !acceptedExtensions.includes(mime.ext)) {
         return res.status(400).json({
-          status: (400),
+          status: 400,
           error: `The uploaded file is not in  ${acceptedExtensions.join(',')} format!`,
         });
       }

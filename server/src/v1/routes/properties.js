@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { cloudinaryConfig } from '../middlewares/cloudinary';
 import { multerUpload, imageFormatValidator } from '../middlewares/multer';
-import {uploadImage, editImage } from '../middlewares/uploadImage';
+import { uploadImage, editImage } from '../middlewares/uploadImage';
 import {
   createPropertyAd,
   fetchAllProperties,
@@ -28,7 +28,6 @@ router.get('/type', findAdsOfSpecificType);
 router.use(verifyAuthUser);
 
 router.post('/', cloudinaryConfig, multerUpload, imageFormatValidator, uploadImage, postPropertyAdValiadator, createPropertyAd);
-router.get('/my-ads', fetchMyads);
 router.delete('/:propertyId', verifyExistingProperty, verifyPropertyBelongsToUser, deletePropertyAd);
 router.patch('/:propertyId/sold', verifyExistingProperty, verifyPropertyBelongsToUser, markPropertySold);
 router.patch('/:propertyId', verifyExistingProperty, verifyPropertyBelongsToUser, editAdValidator, editPropertyAd);
