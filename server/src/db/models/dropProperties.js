@@ -1,4 +1,4 @@
-const pool = require('./configDB');
+import pool from './configDB';
 
 const queryText = 'DROP TABLE IF EXISTS properties';
 pool.query(queryText)

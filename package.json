@@ -4,9 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --require @babel/register './server/src/**/*.test.js' --exit",
+    "test": "npm run droptest && npm run copytest && mocha --require @babel/register './server/src/**/*.test.js' --exit",
     "test:test": "nyc mocha --require @babel/register './server/src/**/*.test.js' --exit",
-    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "copytest": "babel-node server/src/db/models/createUsers.js && babel-node server/src/db/models/createProperties.js",
+    "droptest": "babel-node server/src/db/models/dropUsers.js && babel-node server/src/db/models/dropProperties.js",
     "server": "node app.js",
     "dev:start": "nodemon --exec babel-node server/src/v1/app.js",
     "start": "babel-node server/src/v1/app.js"
