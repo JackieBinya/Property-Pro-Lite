@@ -37,7 +37,7 @@ class Property {
 
   // Get a property by id
   static async findOne(id) {
-    const rows  = await pool.query('SELECT * FROM properties WHERE id=$1', [id]);
+    const rows = await pool.query('SELECT * FROM properties WHERE id=$1', [id]);
     return rows;
   }
 
@@ -53,17 +53,17 @@ class Property {
   static async update(id, price) {
     const text = 'UPDATE properties SET price = $1 WHERE id = $2 RETURNING *';
     const values = [price, id];
-    const { rows } = await pool.query(text, values )
+    const { rows } = await pool.query(text, values);
 
     return rows;
   }
 
-  markPropertySold(id) {
-    const property = this.findOne(id);
-    const index = this.properties.indexOf(property);
-    this.properties[index].status = 'sold';
+  static async markPropertySold(id) {
+    const text = 'UPDATE properties SET status = $1 WHERE id = $2 RETURNING *';
+    const values = ['sold', id];
+    const { rows } = await pool.query(text, values);
 
-    return this.properties[index];
+    return rows;
   }
 
   remove() {

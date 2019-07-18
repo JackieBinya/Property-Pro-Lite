@@ -114,18 +114,25 @@ const editPropertyAd = async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       status: '500',
-      error: err.message,
+      error: err,
     });
   }
 };
 
-const markPropertySold = (req, res) => {
+const markPropertySold = async (req, res) => {
   const { propertyId } = req.params;
-  const result = models.Property.markPropertySold(propertyId);
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
+  try {
+    const result = await Property.markPropertySold(propertyId);
+    res.status(200).json({
+      status: 'success',
+      data: result[0],
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err,
+    });
+  }
 };
 
 export {
