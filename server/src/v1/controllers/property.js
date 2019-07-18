@@ -1,4 +1,6 @@
-import pool from '../../v2/models/configDB';
+import models from '../models';
+
+const { Property } = models;
 
 const createPropertyAd = async (req, res) => {
   const { imageUrl } = req;
@@ -8,15 +10,24 @@ const createPropertyAd = async (req, res) => {
     title, address, state, city, type, price, description,
   } = req.body;
 
-  const text = 'INSERT INTO properties(title, address, state, city, type, price, description, owner, image_url) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
-  const values = [title.trim(), address.trim(), state.trim(), city.trim(), type.trim(), price.trim(), description.trim(), owner, imageUrl];
 
   try {
-    const { rows } = await pool.query(text, values);
+    const createdProperty = await Property.create({
+      title: title.trim(),
+      address: address.trim(),
+      state: state.trim(),
+      city: city.trim(),
+      type: type.trim(),
+      price: price.trim(),
+      description: description.trim(),
+      owner,
+      imageUrl,
+    });
+
     return res.status(201).json({
-      status: '200',
+      status: '201',
       message: 'Sucessfully created a property ad',
-      data: rows[0],
+      data: createdProperty,
     });
   } catch (err) {
     return res.status(500).json({ error: err });
@@ -31,14 +42,8 @@ const fetchAllProperties = (req, res) => {
   });
 };
 
-const findAdsOfSpecificType = (req, res) => {
-  let { type } = req.query;
-  type = decodeURI(type);
-  const properties = models.Property.findAdsOfSpecificType(type);
-  res.status(200).json({
-    status: 'success',
-    data: properties,
-  });
+const findAdsOfSpecificType = async (req, res) => {
+  
 };
 
 const fetchSpecificProperty = (req, res) => {
@@ -60,14 +65,22 @@ const fetchSpecificProperty = (req, res) => {
   }
 };
 
-const deletePropertyAd = (req, res) => {
+const deletePropertyAd = async (req, res) => {
   const { propertyId } = req.params;
-  const result = models.Property.delete(propertyId);
 
-  if (result) {
-    return res.status(200).json({
-      status: 'success',
-      msg: 'Property ad is sucessfully deleted',
+  try {
+    const result = await Property.delete(propertyId);
+
+    if (result.length === 0) {
+      return res.status(200).json({
+        status: 200,
+        msg: 'Property ad is sucessfully deleted',
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err,
     });
   }
 };
@@ -86,42 +99,42 @@ const fetchMyads = (req, res) => {
   if (!properties.length) {
     return res.status(400).json({
       status: 'error',
-      msg: 'No properties found!',
+      error: 'No properties found!',
     });
   }
 };
 
-const editPropertyAd = (req, res) => {
+const editPropertyAd = async (req, res) => {
   const { propertyId } = req.params;
-
-  const obj = Object.assign({}, req.body);
-
-  Object.keys(obj).forEach((key) => {
-    if (obj[key]) {
-      obj[key] = obj[key].trim();
-    }
-  });
-
-  Object.keys(obj).forEach((key) => {
-    if (!obj[key]) {
-      delete obj[key];
-    }
-  });
-
-  const result = models.Property.update(propertyId, obj);
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
+  const { price } = req.body;
+  try {
+    const result = await Property.update(propertyId, price);
+    res.status(200).json({
+      status: '200',
+      data: result[0],
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err,
+    });
+  }
 };
 
-const markPropertySold = (req, res) => {
+const markPropertySold = async (req, res) => {
   const { propertyId } = req.params;
-  const result = models.Property.markPropertySold(propertyId);
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
+  try {
+    const result = await Property.markPropertySold(propertyId);
+    res.status(200).json({
+      status: 'success',
+      data: result[0],
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err,
+    });
+  }
 };
 
 export {
