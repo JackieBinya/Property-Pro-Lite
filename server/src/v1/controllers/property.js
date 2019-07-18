@@ -25,25 +25,60 @@ const createPropertyAd = async (req, res) => {
     });
 
     return res.status(201).json({
-      status: '201',
+      status: 201,
       message: 'Sucessfully created a property ad',
       data: createdProperty,
     });
   } catch (err) {
-    return res.status(500).json({ error: err });
+    return res.status(500).json({
+      status: 500,
+      error: err,
+    });
   }
 };
 
-const fetchAllProperties = (req, res) => {
-  const properties = models.Property.findAll();
-  res.status(200).json({
-    status: 'success',
-    data: properties,
-  });
+const fetchAllProperties = async (req, res) => {
+  try {
+    const properties = await Property.findAll();
+    if (properties.length) {
+      return res.status(200).json({
+        status: 200,
+        data: properties,
+      });
+    }
+    return res.status(404).json({
+      status: 404,
+      error: 'No property ads have been found.',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: 500,
+      error: err.message,
+    });
+  }
 };
 
 const findAdsOfSpecificType = async (req, res) => {
-  
+  let { type } = req.query;
+  type = decodeURI(type);
+  try {
+    const properties = await Property.findAdsOfSpecificType(type);
+    if (properties.length) {
+      return res.status(200).json({
+        status: 200,
+        data: properties,
+      });
+    }
+    return res.status(404).json({
+      status: 404,
+      error: `No property ads of type '${type}' have been found.`,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: 500,
+      error: err,
+    });
+  }
 };
 
 const fetchSpecificProperty = (req, res) => {
@@ -79,7 +114,7 @@ const deletePropertyAd = async (req, res) => {
     }
   } catch (err) {
     return res.status(500).json({
-      status: '500',
+      status: 500,
       error: err,
     });
   }
@@ -110,7 +145,7 @@ const editPropertyAd = async (req, res) => {
   try {
     const result = await Property.update(propertyId, price);
     res.status(200).json({
-      status: '200',
+      status: 200,
       data: result[0],
     });
   } catch (err) {
@@ -126,12 +161,12 @@ const markPropertySold = async (req, res) => {
   try {
     const result = await Property.markPropertySold(propertyId);
     res.status(200).json({
-      status: 'success',
+      status: 200,
       data: result[0],
     });
   } catch (err) {
     return res.status(500).json({
-      status: '500',
+      status: 500,
       error: err,
     });
   }

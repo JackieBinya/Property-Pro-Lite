@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
-
 const { User, Property } = models;
-
 
 const verifyNewUser = async (req, res, next) => {
   const { email } = req.body;
@@ -17,7 +15,7 @@ const verifyNewUser = async (req, res, next) => {
     }
   } catch (err) {
     res.status(500).json({
-      status: '500',
+      status: 500,
       error: err,
     });
   }
@@ -29,7 +27,7 @@ const verifyExistingUser = async (req, res, next) => {
   const user = await User.findByEmail(email.trim());
   if (user.length === 0) {
     return res.status(400).json({
-      status: '400',
+      status: 500,
       error: 'Please sign up to continue, if already signed up email you provided is incorrect. Please try again.',
     });
   }
@@ -42,7 +40,7 @@ const verifyAuthUser = (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
-      status: '400',
+      status: 401,
       error: 'No token access denied',
     });
   }
@@ -50,7 +48,7 @@ const verifyAuthUser = (req, res, next) => {
   jwt.verify(token, process.env.JWT_PRIVATE_KEY, (err, decoded) => {
     if (err) {
       return res.status(400).json({
-        status: '400',
+        status: 400,
         error: 'No authorisation, token invalid!',
       });
     }
@@ -65,13 +63,13 @@ const verifyExistingProperty = async (req, res, next) => {
     const { rows } = await Property.findOne(propertyId);
     if (rows.length === 0) {
       return res.status(400).json({
-        status: '400',
+        status: 400,
         error: 'Property does not exist!',
       });
     }
   } catch (err) {
     return res.status(500).json({
-      status: '500',
+      status: 500,
       error: err.message,
     });
   }
@@ -85,13 +83,13 @@ const verifyPropertyBelongsToUser = async (req, res, next) => {
     const { rows } = await Property.findOne(propertyId);
     if (rows[0].owner !== id) {
       return res.status(400).json({
-        status: '400',
+        status: 500,
         error: 'Access denied! ',
       });
     }
   } catch (err) {
     return res.status(500).json({
-      status: '500',
+      status: 500,
       error: err,
     });
   }
