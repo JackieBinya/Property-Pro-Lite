@@ -28,8 +28,8 @@ class Property {
     return this.properties.filter(prop => prop.owner === id);
   }
 
-  findAdsOfSpecificType(type) {
-    return this.properties.filter(property => property.type === type);
+  static async findAdsOfSpecificType(type) {
+
   }
 
   // Create and save a property
@@ -42,11 +42,11 @@ class Property {
   }
 
   // Delete a property
-  delete(id) {
-    // const property = this.findOne(id);
-    const newProperties = this.properties.filter(property => property.id !== id);
-    this.properties = [...newProperties];
-    return true;
+  static async delete(id) {
+    const text = 'DELETE FROM properties WHERE id =$1';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows;
   }
 
   // Update a propertyn

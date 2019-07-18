@@ -42,14 +42,8 @@ const fetchAllProperties = (req, res) => {
   });
 };
 
-const findAdsOfSpecificType = (req, res) => {
-  let { type } = req.query;
-  type = decodeURI(type);
-  const properties = models.Property.findAdsOfSpecificType(type);
-  res.status(200).json({
-    status: 'success',
-    data: properties,
-  });
+const findAdsOfSpecificType = async (req, res) => {
+  
 };
 
 const fetchSpecificProperty = (req, res) => {
@@ -71,14 +65,22 @@ const fetchSpecificProperty = (req, res) => {
   }
 };
 
-const deletePropertyAd = (req, res) => {
+const deletePropertyAd = async (req, res) => {
   const { propertyId } = req.params;
-  const result = models.Property.delete(propertyId);
 
-  if (result) {
-    return res.status(200).json({
-      status: 'success',
-      msg: 'Property ad is sucessfully deleted',
+  try {
+    const result = await Property.delete(propertyId);
+
+    if (result.length === 0) {
+      return res.status(200).json({
+        status: 200,
+        msg: 'Property ad is sucessfully deleted',
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      status: '500',
+      error: err,
     });
   }
 };
@@ -97,7 +99,7 @@ const fetchMyads = (req, res) => {
   if (!properties.length) {
     return res.status(400).json({
       status: 'error',
-      msg: 'No properties found!',
+      error: 'No properties found!',
     });
   }
 };
