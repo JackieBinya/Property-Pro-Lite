@@ -1,6 +1,7 @@
 import '@babel/polyfill';
+import pg from 'pg';
 
-const { Pool } = require('pg');
+const { Pool } = pg;
 
 /* const pool = new Pool({
   user: process.env.DATABASE_USER,
@@ -16,4 +17,4 @@ const pool = new Pool({
 
 pool.on('connect', () => console.log('connected to the db'));
 
-module.exports = pool;
+export default pool;

@@ -22,7 +22,7 @@ const createNewUser = async (req, res) => {
       password: hash,
     });
     return res.status(201).json({
-      status: 200,
+      status: 201,
       message: 'Sucessfully created an account',
       data: {
         token: generateToken(newUser[0].id),
@@ -72,7 +72,7 @@ const authUser = async (req, res) => {
 
       if (!isMatch) {
         return res.status(400).json({
-          status: 'error',
+          status: 400,
           msg: 'Authentification failed incorrect password!',
         });
       }

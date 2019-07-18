@@ -1,4 +1,4 @@
-const pool = require('./configDB');
+import pool from './configDB';
 
 const queryText = `CREATE TABLE IF NOT EXISTS
 properties(

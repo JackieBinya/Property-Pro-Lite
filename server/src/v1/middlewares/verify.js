@@ -9,7 +9,7 @@ const verifyNewUser = async (req, res, next) => {
     const user = await User.findByEmail(email.trim());
     if (user[0]) {
       return res.status(400).json({
-        status: '400',
+        status: 400,
         error: 'Your email is already registered in the app, you are only allowed to have one account.',
       });
     }
@@ -27,7 +27,7 @@ const verifyExistingUser = async (req, res, next) => {
   const user = await User.findByEmail(email.trim());
   if (user.length === 0) {
     return res.status(400).json({
-      status: 500,
+      status: 400,
       error: 'Please sign up to continue, if already signed up email you provided is incorrect. Please try again.',
     });
   }
@@ -83,7 +83,7 @@ const verifyPropertyBelongsToUser = async (req, res, next) => {
     const { rows } = await Property.findOne(propertyId);
     if (rows[0].owner !== id) {
       return res.status(400).json({
-        status: 500,
+        status: 400,
         error: 'Access denied! ',
       });
     }

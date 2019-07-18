@@ -1,6 +1,6 @@
-const pool = require('./configDB');
+import pool from './configDB';
 
-const queryText = 'DROP TABLE IF EXISTS users';
+const queryText = 'DROP TABLE IF EXISTS users CASCADE';
 pool.query(queryText)
   .then((res) => {
     console.log(res);
