@@ -1,8 +1,6 @@
 # Property-Pro-Lite
 Property Pro Lite is a platform where people can create and/or search properties for sale or rent. 
 
--> Start Challenge 3
-
 [![Build Status](https://travis-ci.org/JackieBinya/Property-Pro-Lite.svg?branch=develop)](https://travis-ci.org/JackieBinya/Property-Pro-Lite)[![Coverage Status](https://coveralls.io/repos/github/JackieBinya/Property-Pro-Lite/badge.svg?branch=develop)](https://coveralls.io/github/JackieBinya/Property-Pro-Lite?branch=develop)[![Maintainability](https://api.codeclimate.com/v1/badges/f98f3f6f68ff073444ab/maintainability)](https://codeclimate.com/github/JackieBinya/Property-Pro-Lite/maintainability)
 
 ### UI templates: https://jackiebinya.github.io/Property-Pro-Lite/
@@ -11,6 +9,7 @@ Property Pro Lite is a platform where people can create and/or search properties
 
 ## Built With
 - [Node.js](https://nodejs.org/en/docs/)
+- [PostgreSQL](https://www.postgresql.org/docs/)
 - [Express](https://expressjs.com/)
 - Javascript
 - CSS
