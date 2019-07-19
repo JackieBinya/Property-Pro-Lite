@@ -6,7 +6,7 @@ Property Pro Lite is a platform where people can create and/or search properties
 [![Build Status](https://travis-ci.org/JackieBinya/Property-Pro-Lite.svg?branch=develop)](https://travis-ci.org/JackieBinya/Property-Pro-Lite)[![Coverage Status](https://coveralls.io/repos/github/JackieBinya/Property-Pro-Lite/badge.svg?branch=develop)](https://coveralls.io/github/JackieBinya/Property-Pro-Lite?branch=develop)[![Maintainability](https://api.codeclimate.com/v1/badges/f98f3f6f68ff073444ab/maintainability)](https://codeclimate.com/github/JackieBinya/Property-Pro-Lite/maintainability)
 
 ### UI templates: https://jackiebinya.github.io/Property-Pro-Lite/
-### API Link: https://property-pro-lite-jb.herokuapp.com/
+### API Link: https://pplchallenge3.herokuapp.com/
 ### Pivotal Tracker Link: https://www.pivotaltracker.com/n/projects/2356449
 
 ## Built With
@@ -77,7 +77,6 @@ Continous Intergration
 | View all properties | GET    |    /api/v1/property/|
 | View a specifi property ad | GET    |    /api/v1/property/<property-id>/specific-property|
 | View property ad of a specific type | GET    |    /api/v1/property/?<type=PropertyType>|
-| View a own ads | GET    |    /api/v1/property/my-ads|
 
 ## References
 - [Andela HomeStudy Curriculum](https://homestudy.andela.com/?utm_campaign=Pre-fellowship%20Call%20for%20Applications&utm_source=hs_email&utm_medium=email&utm_content=68259149&_hsenc=p2ANqtz--wErDpFaSPQg4Z9fWs9YV6uraKM7xcKOTVpSbCxmk5pArnWStcIfmlEKRv_USwRjoMcCs42W4madEkjUvoW2XbvlFicQ&_hsmi=68259149)
