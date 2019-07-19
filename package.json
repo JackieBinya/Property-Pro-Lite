@@ -4,9 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "npm run droptest && npm run copytest && mocha --require @babel/register './server/src/**/*.test.js' --exit",
-    "test:test": "nyc mocha --require @babel/register './server/src/**/*.test.js' --exit",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "test": "npm run droptest && npm run copytest && nyc mocha --require @babel/register './server/src/**/*.test.js' --timeout 100000 --exit",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls ",
     "copytest": "babel-node server/src/db/models/createUsers.js && babel-node server/src/db/models/createProperties.js",
     "droptest": "babel-node server/src/db/models/dropUsers.js && babel-node server/src/db/models/dropProperties.js",
     "server": "node app.js",
@@ -41,14 +40,12 @@
     "express": "^4.17.1",
     "file-type": "^12.0.1",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.24.0",
     "multer": "^1.4.1",
-    "nyc": "^14.1.1",
-    "pg": "^7.11.0",
-    "uuid": "^3.3.2"
+    "pg": "^7.11.0"
   },
   "devDependencies": {
     "coveralls": "^3.0.4",
+    "nyc": "^14.1.1",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",

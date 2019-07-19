@@ -54,7 +54,6 @@ const authUser = async (req, res) => {
     bcrypt.compare(password, newUser[0].password, (err, isMatch) => {
       // res === true
       if (err) throw err;
-
       if (isMatch) {
         return res.status(200).json({
           status: 200,
