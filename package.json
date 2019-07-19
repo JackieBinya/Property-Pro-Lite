@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "npm run droptest && npm run copytest && nyc mocha --require @babel/register './server/src/**/*.test.js' --timeout 100000 --exit",
+    "test": "npm run droptest && npm run copytest && nyc mocha --require @babel/register './server/src/**/*.test.js' --timeout 1000000 --exit",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls ",
     "copytest": "babel-node server/src/db/models/createUsers.js && babel-node server/src/db/models/createProperties.js",
     "droptest": "babel-node server/src/db/models/dropUsers.js && babel-node server/src/db/models/dropProperties.js",

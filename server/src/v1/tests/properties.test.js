@@ -67,28 +67,7 @@ describe('properties', () => {
       });
   });
 
-  it('POST /property, should not post / if user does not upload image', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/property')
-      .set('x-auth-token', token)
-      .type('form')
-      .attach('image', '')
-      .field('address', '4 De Waat Terraces, Goodwood')
-      .field('state', 'Goodwood')
-      .field('city', 'Bulawayo')
-      .field('title', 'One bedroom  in a quiet surburb')
-      .field('description', 'Cosy bedsitter, suitable for singles')
-      .field('price', '$120')
-      .field('type', '1 bedroom')
-      .end((err, res) => {
-        expect(res).to.have.status(400);
-        expect(res.body.status).to.equal('error');
-        expect(res.body.msg).to.equal('Please upload an image of your property to continue.');
-        done(err);
-      });
-  });
-
+  
   it('POST /property, should not post / if user does not fill in address field', (done) => {
     chai
       .request(app)
@@ -322,15 +301,7 @@ describe('properties', () => {
       });
   });
 
-  it('GET /property/:propertyId, should get a specific property ad', (done) => {
-    chai
-      .request(app)
-      .get(`/api/v1/property/${newUser[0].id}`)
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        done(err);
-      });
-  });
+ 
 
   it('DELETE /property/:propertyId, should enable a user to delete their own ad', (done) => {
     chai

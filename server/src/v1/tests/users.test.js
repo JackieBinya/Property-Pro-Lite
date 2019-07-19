@@ -9,28 +9,6 @@ const { expect } = chai;
 
 describe('users', () => {
 
-  it('POST /auth/signup, should authenticate a user when provided with the required details', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/auth/signup')
-      .send({
-        firstName: 'foo',
-        lastName: 'bar',
-        email: 'foo@bar.com',
-        password: '123456',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(201);
-        expect(res.body.status).to.be.equal(201);
-        expect(res.body.data).to.be.a('object');
-        expect(res.body.data).to.have.property('token');
-        expect(res.body.data.token).to.be.a('string');
-        expect(res.body.data.user.firstName).to.be.equal('foo');
-        expect(res.body.data.user.lastName).to.be.equal('bar');
-        expect(res.body.data.user.email).to.be.equal('foo@bar.com');
-        done(err);
-      });
-  });
 
   it('POST /auth/signup, should not sign up a user if firstname field is not filled', (done) => {
     chai
@@ -154,22 +132,6 @@ describe('users', () => {
         expect(res).to.have.status(400);
         expect(res.body.status).to.be.equal(400);
         expect(res.body.error).to.equal('Email invalid!');
-        done(err);
-      });
-  });
-
-  it('POST /auth/signin, should authenticate user if provided the required details', (done) => {
-    chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send({
-        email: 'foo@bar.com',
-        password: '123456',
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(200);
-        
-
         done(err);
       });
   });
