@@ -1,3 +1,4 @@
+COVERALLS_PARALLEL=true
 language: node_js
 node_js:
   - "stable"
@@ -25,6 +26,7 @@ after_success:
   
 notifications:
 email: false
+webhooks: https://coveralls.io/webhook?repo_token=X3pf46eLyf48DkaVNLK3d1lLryn1lUkO5
 
   
 
