@@ -81,21 +81,28 @@ const findAdsOfSpecificType = async (req, res) => {
   }
 };
 
-const fetchSpecificProperty = (req, res) => {
-  const { propertyId } = req.params;
-  const result = models.Property.findOne(propertyId);
+const fetchSpecificProperty = async (req, res) => {
+  try {
+    const { propertyId } = req.params;
+    const { rows } = await Property.findOne(propertyId);
 
-  if (result) {
-    return res.status(200).json({
-      status: 'success',
-      data: result,
-    });
-  }
+    if (rows[0]) {
+      return res.status(200).json({
+        status: 200,
+        data: rows[0],
+      });
+    }
 
-  if (!result) {
-    return res.status(400).json({
-      status: 'error',
-      msg: 'Property ad is not found!',
+    if (!rows[0]) {
+      return res.status(400).json({
+        status: 400,
+        msg: 'Property ad is not found!',
+      });
+    }
+  } catch (err) {
+    return res.status(500).json({
+      status: 500,
+      error: err,
     });
   }
 };
@@ -158,6 +165,7 @@ const editPropertyAd = async (req, res) => {
 
 const markPropertySold = async (req, res) => {
   const { propertyId } = req.params;
+  
   try {
     const result = await Property.markPropertySold(propertyId);
     res.status(200).json({

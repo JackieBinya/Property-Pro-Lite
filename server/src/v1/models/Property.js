@@ -31,10 +31,6 @@ class Property {
     return rows;
   }
 
-  findAllMyAds(id) {
-    return this.properties.filter(prop => prop.owner === id);
-  }
-
   static async findAdsOfSpecificType(type) {
     const { rows } = await pool.query('SELECT * FROM properties WHERE type=$1', [type]);
     return rows;
@@ -45,7 +41,7 @@ class Property {
 
   // Get a property by id
   static async findOne(id) {
-    const rows = await pool.query('SELECT * FROM properties WHERE id=$1', [id]);
+    const  rows  = await pool.query('SELECT * FROM properties WHERE id=$1', [id]);
     return rows;
   }
 
@@ -72,10 +68,7 @@ class Property {
     const { rows } = await pool.query(text, values);
     return rows;
   }
-
-  remove() {
-    this.properties = [];
-  }
+  
 }
 
 export default Property;

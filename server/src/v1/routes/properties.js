@@ -1,13 +1,12 @@
 import { Router } from 'express';
 import { cloudinaryConfig } from '../middlewares/cloudinary';
 import { multerUpload, imageFormatValidator } from '../middlewares/multer';
-import { uploadImage, editImage } from '../middlewares/uploadImage';
+import { uploadImage } from '../middlewares/uploadImage';
 import {
   createPropertyAd,
   fetchAllProperties,
   fetchSpecificProperty,
   deletePropertyAd,
-  fetchMyads,
   findAdsOfSpecificType,
   markPropertySold,
   editPropertyAd,
